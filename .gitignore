@@ -1,0 +1,11 @@
+# Ignora i dati persistenti del database di Docker (se configurati localmente)
+.docker/
+db_data/
+
+# Ignora i file di sistema e log temporanei
+.DS_Store
+Thumbs.db
+*.log
+
+# Ignora i file di configurazione locali
+.env

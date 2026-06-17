@@ -1,0 +1,43 @@
+services:
+  # Servizio Web (Apache con PHP)
+  web:
+    build: .
+    container_name: comprix_web
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - db
+
+# DBMS (MariaDB)
+  db:
+    image: mariadb:latest
+    container_name: comprix_db
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: comprix_db       
+      MARIADB_USER: developer
+      MARIADB_PASSWORD: password
+      MARIADB_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db:/docker-entrypoint-initdb.d
+
+  # phpMyAdmin
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: comprix_pma
+    links:
+      - db
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_ARBITRARY: 1
+
+volumes:
+  db_data:
