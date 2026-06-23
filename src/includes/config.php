@@ -14,8 +14,10 @@
 const ROOT_PATH = __DIR__ . '/../';
 const BASE_URL = 'http://localhost:8080/';
 
+
 // Definizione dell'ambiente di sviluppo o produzione, utile per la gestione degli errori e dei log
-define('ENVIRONMENT', 'development'); // Cambiare in "production" in produzione
+define('ENVIRONMENT', 'development'); // Cambiare con "production" quando si è in produzione
+
 
 // Configurazione della gestione degli errori in base all'ambiente
 if (ENVIRONMENT === "development") {
@@ -36,11 +38,13 @@ if (ENVIRONMENT === "development") {
     ini_set('error_log', ROOT_PATH . 'logs/php_error.log');
 }
 
+
 // Configurazione delle costanti per la connessione alla base di dati
 const DB_HOST = "db";
 const DB_NAME = "comprix_db";
 const DB_USER = "developer";
 const DB_PASS = "password";
+
 
 /** 
  * Configurazione della costante che definisce il nome del sito, viene combinata
@@ -102,7 +106,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 /**
  * Sanifica una stringa per l'output in HTML, prevenendo attacchi XSS.
- * * Funzione alias di htmlspecialchars, preconfigurata con i flag di sicurezza ottimali
+ * Funzione alias di htmlspecialchars, preconfigurata con i flag di sicurezza ottimali
  * (ENT_QUOTES e ENT_HTML5) e codifica forzata in UTF-8. È progettata per gestire
  * in modo sicuro anche valori nulli.
  *
@@ -114,32 +118,66 @@ function h(?string $string): string {
 }
 
 
-// Funzione che verifica se un utente è autenticato o meno
-function utenteAutenticato() {
+/**
+ * Verifica se l'utente corrente ha una sessione di autenticazione attiva.
+ * Controlla l'esistenza delle chiavi essenziali della sessione (user_id e user_type)
+ * per determinare se l'utente ha effettuato il login.
+ *
+ * @return bool Restituisce true se l'utente è loggato, false altrimenti.
+ */
+function utenteAutenticato(): bool {
     return isset($_SESSION["user_id"]) && isset($_SESSION["user_type"]);
 }
 
 
-// Funzione che verifica se l'utente autenticato è un cliente
-function verificaCliente() {
+/**
+ * Verifica se l'utente autenticato è un cliente.
+ * Controlla l'esistenza delle chiavi essenziali della sessione tramite utenteAutenticato,
+ * successivamente controlla che il contenuto di user_type sia una stringa contenente "cliente"
+ * per determinare il tipo di utente.
+ *
+ * @return bool Restituisce true se l'utente è un cliente, false altrimenti.
+ */
+function verificaCliente(): bool {
     return utenteAutenticato() && $_SESSION["user_type"] === "cliente";
 }
 
 
-// Funzione che verifica se l'utente autenticato è un negoziante
-function verificaNegoziante() {
+/**
+ * Verifica se l'utente autenticato è un negoziante.
+ * Controlla l'esistenza delle chiavi essenziali della sessione tramite utenteAutenticato,
+ * successivamente controlla che il contenuto di user_type sia una stringa contenente "negoziante"
+ * per determinare il tipo di utente.
+ *
+ * @return bool Restituisce true se l'utente è un negoziante, false altrimenti.
+ */
+function verificaNegoziante(): bool {
     return utenteAutenticato() && $_SESSION["user_type"] === "negoziante";
 }
 
 
-// Funzione che formatta il prezzo in Euro
-function prezzoEuro($price) {
+/**
+ * Formatta un valore numerico in valuta Euro (€).
+ * Trasforma il numero nel formato italiano con due decimali, 
+ * virgola come separatore dei decimali e punto per le migliaia.
+ *
+ * @param float $price Il prezzo grezzo da formattare.
+ * @return string Il prezzo formattato con il simbolo dell'Euro (es. "€ 1.234,56").
+ */
+function prezzoEuro(float $price): string {
     return "€ " . number_format($price, 2, ",", ".");
 }
 
 
-// Funzione che restituisce il numero totale degli articoli nel carrello del cliente nel badge sulla navbar
-function articoliCarrelloNavbar($pdo) {
+/**
+ * Restituisce il numero totale degli articoli nel carrello del cliente nel badge sulla navbar.
+ * Verifica se l'utente è sia loggato che un cliente, successivamente interroga la base di dati
+ * per richiedere il numero di articoli presenti nel carrello del cliente.
+ * 
+ * @param PDO $pdo L'istanza attiva della connessione al database.
+ * @return int Il numero di articoli presenti nel carrello del cliente
+ */
+function articoliCarrelloNavbar(mixed $pdo): int {
     // Solo i clienti possono avere un (e unico) carrello
     if (!verificaCliente()) {
         return 0;
@@ -153,10 +191,38 @@ function articoliCarrelloNavbar($pdo) {
 }
 
 
-/* Funzione che serve a recuperare tutte le categorie dei prodotti,
- * è utilizzata per i filtri in "ricerca_prodotti.php" e nell'aggiunta/modifica di
- * un prodotto da parte del negoziante */
-function recuperaCategorie($pdo) {
+/**
+ * Interroga la base di dati e restituisce, in ordine alfabetico, tutte le categorie
+ * dei prodotti presenti, viene utilizzata sia per i filtri in "ricerca_prodotti.php",
+ * sia nell'aggiunta/modifica di un prodotto da parte del negoziante.
+ * 
+ * @param PDO $pdo L'istanza attiva della connessione al database.
+ * @return array L'array multidimensionale con dentro altri array associativi
+ * che contengono le categorie dei prodotti salvate nella base di dati
+ */
+function recuperaCategorie(mixed $pdo): array {
     $stmt = $pdo->query("SELECT id, nome FROM categoria ORDER BY nome");
     return $stmt->fetchAll();
+}
+
+
+/**
+ * Esegue una query SQL preparata in modo sicuro gestendo automaticamente
+ * i parametri e il tipo di ritorno in base all'operazione.
+ *
+ * @param PDO $pdo L'istanza attiva della connessione al database.
+ * @param string $sql La stringa SQL da eseguire (con i placeholder ? o :nome).
+ * @param array $params Un array opzionale di parametri da iniettare nella query.
+ * @return PDOStatement $stmt Restituisce l'oggetto che contiene la query eseguita, 
+ * o il numero di righe modificate per UPDATE/DELETE.
+ */
+function db_query(PDO $pdo, string $sql, array $params = []): PDOStatement {
+    
+    // Prepara la query
+    $stmt = $pdo->prepare($sql);
+    
+    // Esegue la query passando l'array di parametri
+    $stmt->execute($params);
+
+    return $stmt;
 }
