@@ -13,6 +13,11 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit;
 }
 
+if (!verificaNegoziante()) {
+    header("Location: ../index.php");
+    exit;
+}
+
 // Vengono validati i dati dal form di per aggiungere il prodotto
 $nome = trim($_POST["name"] ?? "");
 $marca = trim($_POST["brand"] ?? "");

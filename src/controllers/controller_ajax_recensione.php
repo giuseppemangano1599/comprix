@@ -25,6 +25,13 @@ $errore = "";
 $successo = "";
 
 $azione = $_POST["azione"] ?? "";
+
+if (!verificaCliente()) {
+    $risposta["messaggio"] = "Devi effettuare l'accesso come cliente per gestire le recensioni.";
+    echo json_encode($risposta);
+    exit;
+}
+
 $id_utente = $_SESSION["user_id"];
 
 try {

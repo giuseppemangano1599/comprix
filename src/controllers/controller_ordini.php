@@ -6,7 +6,12 @@
 require_once "../includes/config.php";
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    header("Location: ../auth/index.php");
+    header("Location: ../index.php");
+    exit;
+}
+
+if (!verificaCliente()) {
+    header("Location: ../index.php");
     exit;
 }
 

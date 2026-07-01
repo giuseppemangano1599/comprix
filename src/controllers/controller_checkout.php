@@ -13,6 +13,11 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit;
 }
 
+if (!verificaCliente()) {
+    header("Location: ../index.php");
+    exit;
+}
+
 // Recupero i dati dal form del checkout
 $id_indirizzo = $_POST["id_indirizzo_salvato"] ?? "";
 $id_pagamento = $_POST["id_pagamento_salvato"] ?? "";
@@ -153,10 +158,10 @@ if (!empty($successo)) {
 if (!empty($errore)) {
     $_SESSION["error"] = $errore;
     // Torna alla pagina di checkout in caso di errore
-    header("Location: ../checkout/checkout.php");
+    header("Location: ../cart/checkout.php");
     exit;
 }
 
 // Torna sempre alla pagina di checkout in qualsiasi altro caso
-header("Location: ../auth/registrazione.php");
+header("Location: ../cart/checkout.php");
 exit;

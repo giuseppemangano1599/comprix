@@ -58,7 +58,7 @@ include "../includes/header.php";
 
     <form method="POST" action="../controllers/controller_indirizzi.php">
         <input type="hidden" name="azione" value="aggiorna">
-        <input type="hidden" name="id_record" value="<?= $dati_form['id'] ?>">
+        <input type="hidden" name="id_indirizzo" value="<?= $dati_form['id'] ?>">
 
         <div class="form-group">
             <label for="descrizione">Descrizione</label>

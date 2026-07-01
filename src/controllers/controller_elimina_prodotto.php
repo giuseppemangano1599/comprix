@@ -11,6 +11,11 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit;
 }
 
+if (!verificaNegoziante()) {
+    header("Location: ../index.php");
+    exit;
+}
+
 $id_prodotto = (int)($_POST["delete_product_id"] ?? 0);
 
 // Validazione dell'ID del prodotto da eliminare

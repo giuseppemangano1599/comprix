@@ -12,6 +12,11 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit;
 }
 
+if (!verificaNegoziante()) {
+    header("Location: ../index.php");
+    exit;
+}
+
 $errore = "";
 $successo = "";
 

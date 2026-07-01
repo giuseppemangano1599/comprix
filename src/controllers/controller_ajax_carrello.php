@@ -24,6 +24,12 @@ $risposta = [
 $errore = "";
 $azione = $_POST["azione"] ?? "";
 
+if (!verificaCliente()) {
+    $risposta["messaggio"] = "Devi effettuare l'accesso come cliente per usare il carrello.";
+    echo json_encode($risposta);
+    exit;
+}
+
 $id_utente = $_SESSION["user_id"];
 
 try {

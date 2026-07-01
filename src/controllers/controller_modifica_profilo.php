@@ -9,8 +9,18 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit;
 }
 
+if (!utenteAutenticato()) {
+    header("Location: ../auth/login.php");
+    exit;
+}
+
+$tipo_utente = $_SESSION["user_type"] ?? "";
+if (!in_array($tipo_utente, ["cliente", "negoziante"], true)) {
+    header("Location: ../auth/login.php");
+    exit;
+}
+
 $id_utente = $_SESSION["user_id"];
-$tipo_utente = $_SESSION["user_type"];
 $azione = $_POST["azione"] ?? "";
 $errore = "";
 $successo = "";
