@@ -47,6 +47,7 @@ if (empty($nome)) {
 // Validazione dei file caricati per vedere se rispettano i formati
 if (empty($errore) && !empty($foto_associate["name"][0])) {
     $formati_ammessi = ["image/jpeg", "image/png", "image/gif"];
+    $estensioni_ammesse = ["jpg", "jpeg", "png", "gif"];
     $dimensione_massima = 5 * 1024 * 1024; // 5 MB
 
     foreach ($foto_associate["tmp_name"] as $indice => $temp_nome) {
@@ -56,7 +57,17 @@ if (empty($errore) && !empty($foto_associate["name"][0])) {
                 break;
             }
 
-            if (!in_array(mime_content_type($temp_nome), $formati_ammessi)) {
+            $mime_file = mime_content_type($temp_nome);
+            $estensione_file = strtolower(pathinfo($foto_associate["name"][$indice], PATHINFO_EXTENSION));
+            // @ evita il warning su file non immagine, che romperebbe redirect e risposta
+            $info_immagine = @getimagesize($temp_nome);
+
+            if (!in_array($mime_file, $formati_ammessi, true)
+                || !in_array($estensione_file, $estensioni_ammesse, true)
+                || $info_immagine === false
+                || !in_array($info_immagine["mime"], $formati_ammessi, true)
+                || $info_immagine["mime"] !== $mime_file
+            ) {
                 $errore = "Il formato del file non è valido. Sono accettati soltanto i formati .jpg/jpeg, .png e .gif.";
                 break;
             }
@@ -117,8 +128,13 @@ if (empty($errore)) {
 
             foreach ($foto_associate["tmp_name"] as $indice => $temp_nome) {
                 if ($foto_associate["error"][$indice] === UPLOAD_ERR_OK) {
-                    $estensione = pathinfo($foto_associate["name"][$indice], PATHINFO_EXTENSION);
-                    $nome_file = "prod_" . $id_prodotto . "_" . uniqid() . "." . $estensione;
+                    // Estensione derivata dal MIME verificato, mai dal nome originale
+                    $estensioni_da_mime = ["image/jpeg" => "jpg", "image/png" => "png", "image/gif" => "gif"];
+                    $mime_reale = mime_content_type($temp_nome);
+                    if (!isset($estensioni_da_mime[$mime_reale])) {
+                        continue;
+                    }
+                    $nome_file = "prod_" . $id_prodotto . "_" . uniqid() . "." . $estensioni_da_mime[$mime_reale];
                     $percorso_file = $cartella_foto . $nome_file;
 
                     if (move_uploaded_file($temp_nome, $percorso_file)) {

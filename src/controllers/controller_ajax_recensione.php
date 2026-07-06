@@ -64,6 +64,7 @@ try {
         // Validazione dei file caricati per vedere se rispettano la dimensione e i formati
         if (empty($errore) && !empty($foto_caricate["name"][0])) {
             $formati_ammessi = ["image/jpeg", "image/png", "image/gif"];
+            $estensioni_ammesse = ["jpg", "jpeg", "png", "gif"];
             $dimensione_massima = 5 * 1024 * 1024; // 5MB
 
             foreach ($foto_caricate["tmp_name"] as $indice => $temp_nome) {
@@ -72,7 +73,17 @@ try {
                         $errore = "Una delle foto della recensione che stai caricando è troppo grande (massimo 5MB).";
                         break;
                     }
-                    if (!in_array(mime_content_type($temp_nome), $formati_ammessi)) {
+                    $mime_file = mime_content_type($temp_nome);
+                    $estensione_file = strtolower(pathinfo($foto_caricate["name"][$indice], PATHINFO_EXTENSION));
+                    // @ evita il warning su file non immagine, che romperebbe la risposta JSON
+                    $info_immagine = @getimagesize($temp_nome);
+
+                    if (!in_array($mime_file, $formati_ammessi, true)
+                        || !in_array($estensione_file, $estensioni_ammesse, true)
+                        || $info_immagine === false
+                        || !in_array($info_immagine["mime"], $formati_ammessi, true)
+                        || $info_immagine["mime"] !== $mime_file
+                    ) {
                         $errore = "Il formato del file non è valido. Sono accettati soltanto i formati .jpg/jpeg, .png e .gif.";
                         break;
                     }
@@ -98,8 +109,13 @@ try {
 
                 foreach ($foto_caricate["tmp_name"] as $indice => $temp_nome) {
                     if ($foto_caricate["error"][$indice] === UPLOAD_ERR_OK) {
-                        $estensione = pathinfo($foto_caricate["name"][$indice], PATHINFO_EXTENSION);
-                        $nome_file = "rev_" . $id_recensione . "_" . uniqid() . "." . $estensione;
+                        // Estensione derivata dal MIME verificato, mai dal nome originale
+                        $estensioni_da_mime = ["image/jpeg" => "jpg", "image/png" => "png", "image/gif" => "gif"];
+                        $mime_reale = mime_content_type($temp_nome);
+                        if (!isset($estensioni_da_mime[$mime_reale])) {
+                            continue;
+                        }
+                        $nome_file = "rev_" . $id_recensione . "_" . uniqid() . "." . $estensioni_da_mime[$mime_reale];
                         $percorso_file = $cartella_foto . $nome_file;
 
                         if (move_uploaded_file($temp_nome, $percorso_file)) {
@@ -149,6 +165,7 @@ try {
         // Validazione dei file caricati per vedere se rispettano la dimensione e i formati
         if (empty($errore) && !empty($nuove_foto["name"][0])) {
             $formati_ammessi = ["image/jpeg", "image/png", "image/gif"];
+            $estensioni_ammesse = ["jpg", "jpeg", "png", "gif"];
             $dimensione_massima = 5 * 1024 * 1024;
 
             foreach ($nuove_foto["tmp_name"] as $indice => $temp_nome) {
@@ -157,7 +174,17 @@ try {
                         $errore = "Una delle foto della recensione che stai caricando è troppo grande (massimo 5MB).";
                         break;
                     }
-                    if (!in_array(mime_content_type($temp_nome), $formati_ammessi)) {
+                    $mime_file = mime_content_type($temp_nome);
+                    $estensione_file = strtolower(pathinfo($nuove_foto["name"][$indice], PATHINFO_EXTENSION));
+                    // @ evita il warning su file non immagine, che romperebbe la risposta JSON
+                    $info_immagine = @getimagesize($temp_nome);
+
+                    if (!in_array($mime_file, $formati_ammessi, true)
+                        || !in_array($estensione_file, $estensioni_ammesse, true)
+                        || $info_immagine === false
+                        || !in_array($info_immagine["mime"], $formati_ammessi, true)
+                        || $info_immagine["mime"] !== $mime_file
+                    ) {
                         $errore = "FIl formato del file non è valido. Sono accettati soltanto i formati .jpg/jpeg, .png e .gif.";
                         break;
                     }
@@ -200,8 +227,13 @@ try {
 
                 foreach ($nuove_foto["tmp_name"] as $indice => $temp_nome) {
                     if ($nuove_foto["error"][$indice] === UPLOAD_ERR_OK) {
-                        $estensione = pathinfo($nuove_foto["name"][$indice], PATHINFO_EXTENSION);
-                        $nome_file = "rev_" . $id_recensione . "_" . uniqid() . "." . $estensione;
+                        // Estensione derivata dal MIME verificato, mai dal nome originale
+                        $estensioni_da_mime = ["image/jpeg" => "jpg", "image/png" => "png", "image/gif" => "gif"];
+                        $mime_reale = mime_content_type($temp_nome);
+                        if (!isset($estensioni_da_mime[$mime_reale])) {
+                            continue;
+                        }
+                        $nome_file = "rev_" . $id_recensione . "_" . uniqid() . "." . $estensioni_da_mime[$mime_reale];
                         $percorso_file = $cartella_foto . $nome_file;
 
                         if (move_uploaded_file($temp_nome, $percorso_file)) {
