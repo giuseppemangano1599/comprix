@@ -61,6 +61,15 @@ try {
             }
         }
 
+        // Controlla che l'utente abbia acquistato il prodotto e che l'ordine sia consegnato (come il trigger tr_recensioni_solo_prodotti_acquistati)
+        if (empty($errore)) {
+            $stmt = $pdo->prepare("SELECT 1 FROM elemento_ordine AS eo INNER JOIN ordine AS o ON eo.id_ordine = o.id WHERE o.id_cliente = ? AND eo.id_prodotto = ? AND o.stato = 'consegnato' LIMIT 1");
+            $stmt->execute([$id_utente, $id_prodotto]);
+            if (!$stmt->fetch()) {
+                $errore = "Puoi recensire solo prodotti che hai acquistato (e che ti sono stati consegnati).";
+            }
+        }
+
         // Validazione dei file caricati per vedere se rispettano la dimensione e i formati
         if (empty($errore) && !empty($foto_caricate["name"][0])) {
             $formati_ammessi = ["image/jpeg", "image/png", "image/gif"];
