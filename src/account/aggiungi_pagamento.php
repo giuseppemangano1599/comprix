@@ -96,7 +96,9 @@ include "../includes/header.php";
                         class="form-control"
                         maxlength="4"
                         pattern="\d{3,4}"
-                        value="<?= h($dati_form["cvv"] ?? "") ?>">
+                        value=""
+                        autocomplete="off">
+                    <small>Serve solo alla registrazione e non viene conservato; della carta restano ultime 4 cifre, scadenza e titolare.</small>
                 </div>
             </div>
         </div>

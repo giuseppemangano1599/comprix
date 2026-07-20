@@ -73,11 +73,11 @@ if ($azione === "inserisci" || $azione === "aggiorna") {
                 }
             }
 
-            // Preparazione dei dati JSON
+            // Preparazione dei dati JSON: solo ultime 4 cifre, scadenza e titolare.
+            // Il CVV è validato ma mai conservato; il PAN intero non lascia mai questa richiesta.
             $dati_json = [
-                "numero_carta" => $numero,
+                "numero_carta" => substr($numero, -4),
                 "data_scadenza" => $scadenza,
-                "cvv" => $cvv,
                 "nome_titolare" => $titolare
             ];
         } elseif ($tipo === "paypal") {
@@ -154,7 +154,10 @@ if (!empty($successo)) {
 if (!empty($errore)) {
     $_SESSION["error"] = $errore;
     if ($azione !== "elimina") {
-        $_SESSION["dati_form"] = $_POST;
+        // PAN e CVV non vengono mai conservati in sessione
+        $dati_sicuri = $_POST;
+        unset($dati_sicuri["numero_carta"], $dati_sicuri["cvv"]);
+        $_SESSION["dati_form"] = $dati_sicuri;
     }
     if ($azione === "aggiorna") {
         header("Location: ../account/modifica_pagamento.php?id=" . $id_pagamento);

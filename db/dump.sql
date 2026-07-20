@@ -457,7 +457,7 @@ CREATE TABLE `metodo_pagamento` (
 INSERT INTO `metodo_pagamento` (`id`, `id_cliente`, `tipo`, `descrizione`, `dati_pagamento`) VALUES
 (1, 1, 'paypal', 'Paypal Personale', '{\"email_paypal\":\"jack@sparrow.it\"}'),
 (2, 1, 'contrassegno', 'Contrassegno a casa', '{\"note\":\"Pagamento alla consegna\"}'),
-(3, 2, 'carta_credito', 'Carta di Mamma', '{\"numero_carta\":\"1234456789101122\",\"data_scadenza\":\"12\\/26\",\"cvv\":\"123\",\"nome_titolare\":\"Carla Santini\"}'),
+(3, 2, 'carta_credito', 'Carta di Mamma', '{\"numero_carta\":\"1122\",\"data_scadenza\":\"12\\/26\",\"nome_titolare\":\"Carla Santini\"}'),
 (4, 2, 'bonifico', 'Conto corrente personale', '{\"iban\":\"IT30V0300203280446284826952\",\"intestatario\":\"Delia Bellini\"}');
 
 --
@@ -480,12 +480,13 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `tr_valida_dati_pagamento` BEFORE INSERT ON `metodo_pagamento` FOR EACH ROW BEGIN
     IF NEW.tipo IN ('carta_credito', 'carta_debito') THEN
-        IF JSON_EXTRACT(NEW.dati_pagamento, '$.numero_carta') IS NULL OR
-           JSON_EXTRACT(NEW.dati_pagamento, '$.cvv') IS NULL OR
+        IF JSON_UNQUOTE(JSON_EXTRACT(NEW.dati_pagamento, '$.numero_carta')) IS NULL OR
+           JSON_UNQUOTE(JSON_EXTRACT(NEW.dati_pagamento, '$.numero_carta')) NOT REGEXP '^[0-9]{4}$' OR
            JSON_EXTRACT(NEW.dati_pagamento, '$.data_scadenza') IS NULL OR
-           JSON_EXTRACT(NEW.dati_pagamento, '$.nome_titolare') IS NULL THEN
+           JSON_EXTRACT(NEW.dati_pagamento, '$.nome_titolare') IS NULL OR
+           JSON_CONTAINS_PATH(NEW.dati_pagamento, 'one', '$.cvv') THEN
             SIGNAL SQLSTATE '45000' 
-            SET MESSAGE_TEXT = 'Dati carta mancanti: numero_carta, cvv, data_scadenza, nome_titolare sono obbligatori';
+            SET MESSAGE_TEXT = 'Dati carta non validi: sono conservate solo le ultime 4 cifre, la scadenza e il titolare; il CVV non deve essere salvato';
         END IF;
     END IF;
     
@@ -509,12 +510,13 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `tr_valida_dati_pagamento_update` BEFORE UPDATE ON `metodo_pagamento` FOR EACH ROW BEGIN
     IF NEW.tipo IN ('carta_credito', 'carta_debito') THEN
-        IF JSON_EXTRACT(NEW.dati_pagamento, '$.numero_carta') IS NULL OR
-           JSON_EXTRACT(NEW.dati_pagamento, '$.cvv') IS NULL OR
+        IF JSON_UNQUOTE(JSON_EXTRACT(NEW.dati_pagamento, '$.numero_carta')) IS NULL OR
+           JSON_UNQUOTE(JSON_EXTRACT(NEW.dati_pagamento, '$.numero_carta')) NOT REGEXP '^[0-9]{4}$' OR
            JSON_EXTRACT(NEW.dati_pagamento, '$.data_scadenza') IS NULL OR
-           JSON_EXTRACT(NEW.dati_pagamento, '$.nome_titolare') IS NULL THEN
+           JSON_EXTRACT(NEW.dati_pagamento, '$.nome_titolare') IS NULL OR
+           JSON_CONTAINS_PATH(NEW.dati_pagamento, 'one', '$.cvv') THEN
             SIGNAL SQLSTATE '45000' 
-            SET MESSAGE_TEXT = 'Dati carta mancanti: numero_carta, cvv, data_scadenza, nome_titolare sono obbligatori';
+            SET MESSAGE_TEXT = 'Dati carta non validi: sono conservate solo le ultime 4 cifre, la scadenza e il titolare; il CVV non deve essere salvato';
         END IF;
     END IF;
     

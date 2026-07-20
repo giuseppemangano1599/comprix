@@ -118,7 +118,9 @@ include "../includes/header.php";
                     class="form-control"
                     maxlength="16"
                     pattern="\d{16}"
-                    value="<?= h($dati_form["numero_carta"] ?? "") ?>">
+                    value=""
+                    autocomplete="off">
+                <small>Per sicurezza è conservata solo la carta che termina con <?= h($dati_form["numero_carta"] ?? "") ?>: reinserisci il numero completo per aggiornarla.</small>
             </div>
 
             <div class="form-row">
@@ -141,7 +143,9 @@ include "../includes/header.php";
                         class="form-control"
                         maxlength="4"
                         pattern="\d{3,4}"
-                        value="<?= h($dati_form["cvv"] ?? "") ?>">
+                        value=""
+                        autocomplete="off">
+                    <small>Il CVV non viene mai conservato.</small>
                 </div>
             </div>
         </div>
