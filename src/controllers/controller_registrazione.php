@@ -45,17 +45,18 @@ if (empty($username) || empty($email) || empty($password) || !in_array($tipo_ute
     * poiché potrebbe essere bypassato disattivando JavaScript dal browser. */
     try {
         // Query che cerca sia nella tabella cliente che negoziante
+        // (placeholder distinti: con prepare nativi lo stesso nome riusato due volte dà HY093)
         $sql = "SELECT username, email
                 FROM cliente
-                WHERE username = :username OR email = :email
+                WHERE username = :username_c OR email = :email_c
                 UNION ALL
                 SELECT username, email
                 FROM negoziante
-                WHERE username = :username OR email = :email
+                WHERE username = :username_n OR email = :email_n
                 LIMIT 1";
 
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([":username" => $username, ":email" => $email]);
+        $stmt->execute([":username_c" => $username, ":email_c" => $email, ":username_n" => $username, ":email_n" => $email]);
 
         // Se trova una riga, significa che un valore in quel campo è già registrato
         $esistente = $stmt->fetch();

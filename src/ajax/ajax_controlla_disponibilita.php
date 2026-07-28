@@ -22,13 +22,13 @@ function verificaDisponibilita($pdo, $campo, $valore) {
      * Ho scelto di usare SELECT 1 perché è più efficiente, la query restituisce 1 se il valore è presente,
      * SELECT * restituirebbe una tabella intera, appesantento il carico computazionale.
      */
-    $sql = "SELECT 1 FROM cliente WHERE $campo = :valore 
+    $sql = "SELECT 1 FROM cliente WHERE $campo = :valore_c 
             UNION ALL 
-            SELECT 1 FROM negoziante WHERE $campo = :valore 
+            SELECT 1 FROM negoziante WHERE $campo = :valore_n 
             LIMIT 1";
 
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([":valore" => $valore]);
+    $stmt->execute([":valore_c" => $valore, ":valore_n" => $valore]);
 
     return !$stmt->fetch();
 }
