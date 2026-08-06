@@ -59,7 +59,8 @@ $(document).ready(function () {
             data: {
                 azione: "aggiungi",
                 id_prodotto: id_prodotto,
-                quantita: quantita_scelta
+                quantita: quantita_scelta,
+                csrf_token: $("meta[name=csrf-token]").attr("content")
             },
             success: function (risposta) {
                 if (risposta.successo) {
@@ -176,7 +177,8 @@ $(document).ready(function () {
             type: "POST",
             data: { 
                 azione: "recupera",
-                id_recensione: id_recensione
+                id_recensione: id_recensione,
+                csrf_token: $("meta[name=csrf-token]").attr("content")
             },
             dataType: "json",
             success: function (risposta) {

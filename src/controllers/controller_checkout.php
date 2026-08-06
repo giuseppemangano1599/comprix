@@ -18,6 +18,12 @@ if (!verificaCliente()) {
     exit;
 }
 
+if (!csrf_valido()) {
+    $_SESSION["error"] = "Richiesta non valida o scaduta. Riprova.";
+    header("Location: ../cart/checkout.php");
+    exit;
+}
+
 // Recupero i dati dal form del checkout
 $id_indirizzo = $_POST["id_indirizzo_salvato"] ?? "";
 $id_pagamento = $_POST["id_pagamento_salvato"] ?? "";

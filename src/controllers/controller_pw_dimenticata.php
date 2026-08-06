@@ -13,6 +13,12 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit;
 }
 
+if (!csrf_valido()) {
+    $_SESSION["error"] = "Richiesta non valida o scaduta. Riprova.";
+    header("Location: ../auth/pw_dimenticata.php");
+    exit;
+}
+
 // Vengono presi e puliti i dati dal form per il recupero della password
 $username_o_email = trim($_POST["username_or_email"] ?? "");
 $risposta_utente = trim($_POST["secret_answer"] ?? "");

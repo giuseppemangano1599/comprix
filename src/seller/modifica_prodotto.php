@@ -67,6 +67,7 @@ include "../includes/header.php";
 
     <form method="POST" enctype="multipart/form-data" action="../controllers/controller_modifica_prodotto.php">
         <input type="hidden" name="action" value="update_product">
+        <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
         <input type="hidden" name="id_prodotto" value="<?= $id_prodotto ?>">
 
         <div class="form-group">
@@ -175,6 +176,7 @@ include "../includes/header.php";
 
         <form method="POST" action="../controllers/controller_modifica_prodotto.php">
             <input type="hidden" name="action" value="delete_photo">
+            <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
             <input type="hidden" name="id_prodotto" value="<?= $id_prodotto ?>">
             <input type="hidden" name="id_foto" id="modal-photo-id">
 

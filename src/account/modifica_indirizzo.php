@@ -58,6 +58,7 @@ include "../includes/header.php";
 
     <form method="POST" action="../controllers/controller_indirizzi.php">
         <input type="hidden" name="azione" value="aggiorna">
+        <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
         <input type="hidden" name="id_indirizzo" value="<?= $dati_form['id'] ?>">
 
         <div class="form-group">

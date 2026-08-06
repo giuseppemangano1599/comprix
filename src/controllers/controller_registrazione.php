@@ -13,6 +13,12 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit;
 }
 
+if (!csrf_valido()) {
+    $_SESSION["error"] = "Richiesta non valida o scaduta. Riprova.";
+    header("Location: ../auth/registrazione.php");
+    exit;
+}
+
 // Vengono presi e puliti i dati dal form di registrazione
 $username = trim($_POST["username"] ?? "");
 $email = strtolower(trim($_POST["email"] ?? ""));

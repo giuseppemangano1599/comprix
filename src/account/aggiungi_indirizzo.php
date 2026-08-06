@@ -28,6 +28,7 @@ include "../includes/header.php";
     <?php endif; ?>
 
     <form method="POST" action="../controllers/controller_indirizzi.php">
+        <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
         <input type="hidden" name="azione" value="inserisci">
 
         <div class="form-group">

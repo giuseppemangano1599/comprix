@@ -73,6 +73,7 @@ include "../includes/header.php";
 
     <form method="POST" action="../controllers/controller_pagamenti.php">
         <input type="hidden" name="azione" value="aggiorna">
+        <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
         <input type="hidden" name="id_pag" value="<?= h($dati_form["id"]) ?>">
 
         <div class="form-group">

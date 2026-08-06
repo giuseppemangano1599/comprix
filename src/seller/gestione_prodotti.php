@@ -111,6 +111,7 @@ include "../includes/header.php";
 
         <form method="POST" action="../controllers/controller_elimina_prodotto.php">
             <input type="hidden" name="delete_product_id" id="modal-product-id">
+            <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
 
             <div class="form-actions" style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
                 <button type="button" class="btn-secondary close-modal">Annulla</button>

@@ -15,6 +15,12 @@ if (!verificaCliente()) {
     exit;
 }
 
+if (!csrf_valido()) {
+    $_SESSION["error"] = "Richiesta non valida o scaduta. Riprova.";
+    header("Location: ../orders/storico_ordini.php");
+    exit;
+}
+
 $id_utente = $_SESSION["user_id"];
 $azione = $_POST['azione'] ?? '';
 

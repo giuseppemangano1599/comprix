@@ -29,7 +29,8 @@ $(document).ready(function () {
             data: {
                 azione: azione,
                 id_prodotto: id_prodotto,
-                quantita: nuova_quantita
+                quantita: nuova_quantita,
+                csrf_token: $("meta[name=csrf-token]").attr("content")
             },
             success: function (risposta) {
                 if (risposta.successo) {

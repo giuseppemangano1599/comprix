@@ -46,6 +46,7 @@ include "../includes/header.php";
         <?php endif; ?>
 
         <form method="POST" enctype="multipart/form-data" action="../controllers/controller_aggiungi_prodotto.php">
+            <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
 
             <div class="form-group">
                 <label for="name">Nome del prodotto:</label>

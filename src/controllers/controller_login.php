@@ -12,6 +12,12 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit;
 }
 
+if (!csrf_valido()) {
+    $_SESSION["error"] = "Richiesta non valida o scaduta. Riprova.";
+    header("Location: ../auth/login.php");
+    exit;
+}
+
 $username_o_email = trim($_POST["username_or_email"] ?? "");
 $password = $_POST["password"] ?? "";
 
@@ -46,6 +52,8 @@ if (empty($username_o_email) || empty($password)) {
 
         // Verifica della password se l'utente risulta nel database
         if ($utente && password_verify($password, $utente["password_hash"])) {
+            // Nuovo ID di sessione contro la fixation (conserva i dati di sessione)
+            session_regenerate_id(true);
             // Imposta le variabili di sessione per l'autenticazione
             $_SESSION["user_id"] = $utente["id"];
             $_SESSION["username"] = $utente["username"];

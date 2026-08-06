@@ -92,6 +92,16 @@ try {
 }
 
 
+// Parametri sicuri del cookie di sessione (vanno impostati prima di session_start)
+$cookie_sicuro = (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off");
+session_set_cookie_params([
+    "lifetime" => 0,
+    "path" => "/",
+    "secure" => $cookie_sicuro,
+    "httponly" => true,
+    "samesite" => "Lax"
+]);
+
 // Avvia una nuova sessione se non è già attiva prevenendo possibili errori
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -115,6 +125,31 @@ if (session_status() === PHP_SESSION_NONE) {
  */
 function h(?string $string): string {
     return htmlspecialchars($string ?? "", ENT_QUOTES | ENT_HTML5, "UTF-8");
+}
+
+
+/**
+ * Restituisce il token CSRF della sessione, creandolo se assente.
+ * Va stampato come campo hidden "csrf_token" in ogni form che muta stato.
+ *
+ * @return string Il token CSRF della sessione corrente.
+ */
+function csrf_token(): string {
+    if (empty($_SESSION["csrf_token"])) {
+        $_SESSION["csrf_token"] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION["csrf_token"];
+}
+
+
+/**
+ * Verifica il token CSRF inviato tramite POST contro quello di sessione.
+ *
+ * @return bool Restituisce true se il token è presente e valido, false altrimenti.
+ */
+function csrf_valido(): bool {
+    return isset($_POST["csrf_token"], $_SESSION["csrf_token"])
+        && hash_equals($_SESSION["csrf_token"], (string)$_POST["csrf_token"]);
 }
 
 

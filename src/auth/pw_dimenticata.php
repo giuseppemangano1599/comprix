@@ -43,6 +43,7 @@ include_once "../includes/header.php";
         <?php endif; ?>
 
         <form method="POST" action="../controllers/controller_pw_dimenticata.php" id="fp-form">
+            <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
 
             <fieldset id="step-1-container">
                 <div class="form-group">

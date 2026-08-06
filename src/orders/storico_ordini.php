@@ -144,6 +144,7 @@ include "../includes/header.php";
 
     <form method="POST" action="../controllers/controller_ordini.php">
         <input type="hidden" name="azione" value="annulla_ordine">
+        <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
         <input type="hidden" name="id_ordine" id="input_id_ordine_annulla">
 
         <div class="form-group" style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">

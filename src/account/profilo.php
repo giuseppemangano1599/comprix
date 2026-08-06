@@ -62,6 +62,7 @@ include "../includes/header.php";
                 <h3>Informazioni dell'account</h3>
                 <form action="../controllers/controller_modifica_profilo.php" method="POST">
                     <input type="hidden" name="azione" value="aggiorna_dati">
+                    <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
 
                     <div class="form-group">
                         <label for="username">Username</label>
@@ -97,6 +98,7 @@ include "../includes/header.php";
                     <form action="../controllers/controller_modifica_profilo.php" method="POST">
                         <input type="hidden" name="azione" value="aggiorna_sicurezza">
                         <input type="hidden" name="tipo_sicurezza" value="password">
+                        <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
 
                         <div class="form-group">
                             <input type="password"
@@ -140,6 +142,7 @@ include "../includes/header.php";
                     <form action="../controllers/controller_modifica_profilo.php" method="POST">
                         <input type="hidden" name="azione" value="aggiorna_sicurezza">
                         <input type="hidden" name="tipo_sicurezza" value="domanda">
+                        <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
 
                         <div class="form-group">
                             <select name="domanda_segreta" class="form-control" required>
@@ -173,6 +176,7 @@ include "../includes/header.php";
                 <h3>Eliminazione account</h3>
                 <form id="form_delete_account" action="../controllers/controller_modifica_profilo.php" method="POST">
                     <input type="hidden" name="azione" value="cancella_account">
+                    <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
                     <input type="password"
                         id="delete-account-password"
                         name="delete_account_password"
@@ -305,6 +309,7 @@ include "../includes/header.php";
         <p>Sei sicuro di voler eliminare questo indirizzo?</p>
         <form method="POST" action="../controllers/controller_indirizzi.php">
             <input type="hidden" name="azione" value="elimina">
+            <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
             <input type="hidden" name="id_indirizzo" id="modal-addr-id">
             <div class="form-actions" style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
                 <button type="button" class="btn-secondary close-modal">Annulla</button>
@@ -320,6 +325,7 @@ include "../includes/header.php";
         <p>Sei sicuro di voler eliminare questo metodo?</p>
         <form method="POST" action="../controllers/controller_pagamenti.php">
             <input type="hidden" name="azione" value="elimina">
+            <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
             <input type="hidden" name="id_pag" id="modal-pay-id">
             <div class="form-actions" style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
                 <button type="button" class="btn-secondary close-modal">Annulla</button>

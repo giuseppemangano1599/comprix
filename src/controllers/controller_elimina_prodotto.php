@@ -16,6 +16,12 @@ if (!verificaNegoziante()) {
     exit;
 }
 
+if (!csrf_valido()) {
+    $_SESSION["error"] = "Richiesta non valida o scaduta. Riprova.";
+    header("Location: ../seller/gestione_prodotti.php");
+    exit;
+}
+
 $id_prodotto = (int)($_POST["delete_product_id"] ?? 0);
 
 // Validazione dell'ID del prodotto da eliminare

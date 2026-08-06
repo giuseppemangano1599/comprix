@@ -17,6 +17,12 @@ if (!verificaNegoziante()) {
     exit;
 }
 
+if (!csrf_valido()) {
+    $_SESSION["error"] = "Richiesta non valida o scaduta. Riprova.";
+    header("Location: ../seller/gestione_prodotti.php");
+    exit;
+}
+
 $errore = "";
 $successo = "";
 

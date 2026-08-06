@@ -38,6 +38,7 @@ include_once "../includes/header.php";
     <?php endif; ?>
 
     <form method="POST" action="../controllers/controller_login.php" id="login-form">
+        <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
 
         <div class="form-group">
             <label for="username-or-email">Username o e-mail:</label>

@@ -18,6 +18,12 @@ if (!verificaNegoziante()) {
     exit;
 }
 
+if (!csrf_valido()) {
+    $_SESSION["error"] = "Richiesta non valida o scaduta. Riprova.";
+    header("Location: ../seller/aggiungi_prodotto.php");
+    exit;
+}
+
 // Vengono validati i dati dal form di per aggiungere il prodotto
 $nome = trim($_POST["name"] ?? "");
 $marca = trim($_POST["brand"] ?? "");

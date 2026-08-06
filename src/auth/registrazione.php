@@ -41,6 +41,7 @@ include "../includes/header.php";
         <?php endif; ?>
 
         <form method="POST" action="../controllers/controller_registrazione.php" id="register-form" onsubmit="return controlloForm()">
+            <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
 
             <fieldset>
                 <legend>Tipo di account</legend>

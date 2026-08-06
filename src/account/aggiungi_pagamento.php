@@ -29,6 +29,7 @@ include "../includes/header.php";
 
     <form method="POST" action="../controllers/controller_pagamenti.php">
         <input type="hidden" name="azione" value="inserisci">
+        <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
 
         <div class="form-group">
             <label for="descrizione">Descrizione</label>

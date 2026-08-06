@@ -14,6 +14,12 @@ if (!verificaCliente()) {
     exit;
 }
 
+if (!csrf_valido()) {
+    $_SESSION["error"] = "Richiesta non valida o scaduta. Riprova.";
+    header("Location: ../account/profilo.php");
+    exit;
+}
+
 $id_utente = $_SESSION["user_id"];
 $azione = $_POST["azione"] ?? "";
 $errore = "";

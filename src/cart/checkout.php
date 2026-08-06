@@ -54,6 +54,7 @@ include "../includes/header.php";
     <?php endif; ?>
 
     <form id="form_checkout" action="../controllers/controller_checkout.php" method="POST">
+        <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
 
         <div style="display: flex; gap: 30px; flex-wrap: wrap;">
 
