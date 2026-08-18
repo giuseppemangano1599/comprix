@@ -57,25 +57,41 @@ try {
         if (empty($errore)) {
             $pdo->beginTransaction();
 
-            // Controlla se il prodotto è già nel carrello
-            $stmt = $pdo->prepare("SELECT quantita_aggiunta FROM elemento_carrello WHERE id_carrello = ? AND id_prodotto = ?");
-            $stmt->execute([$id_carrello, $id_prodotto]);
-            $qta_esistente = $stmt->fetchColumn();
+            // Verifica esistenza e stock prima di toccare il carrello
+            $stmt_prod = $pdo->prepare("SELECT quantita_disponibile FROM prodotto WHERE id = ?");
+            $stmt_prod->execute([$id_prodotto]);
+            $stock = $stmt_prod->fetchColumn();
 
-            // Se c'è già lo stesso prodotto, aggiorna la quantità
-            if ($qta_esistente) {
-                $nuova_qta = $qta_esistente + $quantita;
-                $stmt_upd = $pdo->prepare("UPDATE elemento_carrello SET quantita_aggiunta = ? WHERE id_carrello = ? AND id_prodotto = ?");
-                $stmt_upd->execute([$nuova_qta, $id_carrello, $id_prodotto]);
+            if ($stock === false) {
+                $errore = "Il prodotto selezionato non esiste.";
             } else {
-                // Altrimenti lo aggiunge
-                $stmt_ins = $pdo->prepare("INSERT INTO elemento_carrello (id_carrello, id_prodotto, quantita_aggiunta) VALUES (?, ?, ?)");
-                $stmt_ins->execute([$id_carrello, $id_prodotto, $quantita]);
+                // Controlla se il prodotto è già nel carrello
+                $stmt = $pdo->prepare("SELECT quantita_aggiunta FROM elemento_carrello WHERE id_carrello = ? AND id_prodotto = ?");
+                $stmt->execute([$id_carrello, $id_prodotto]);
+                $qta_esistente = $stmt->fetchColumn();
+
+                $nuova_qta = ($qta_esistente ?: 0) + $quantita;
+
+                if ($nuova_qta > $stock) {
+                    $errore = "Quantità non disponibile: restano solo $stock pezzi di questo prodotto.";
+                } elseif ($qta_esistente) {
+                    // Se c'è già lo stesso prodotto, aggiorna la quantità
+                    $stmt_upd = $pdo->prepare("UPDATE elemento_carrello SET quantita_aggiunta = ? WHERE id_carrello = ? AND id_prodotto = ?");
+                    $stmt_upd->execute([$nuova_qta, $id_carrello, $id_prodotto]);
+                } else {
+                    // Altrimenti lo aggiunge
+                    $stmt_ins = $pdo->prepare("INSERT INTO elemento_carrello (id_carrello, id_prodotto, quantita_aggiunta) VALUES (?, ?, ?)");
+                    $stmt_ins->execute([$id_carrello, $id_prodotto, $quantita]);
+                }
             }
 
-            $pdo->commit();
-            $risposta["successo"] = true;
-            $risposta["messaggio"] = "Il prodotto è stato aggiunto nel carrello!";
+            if (!empty($errore)) {
+                $pdo->rollBack();
+            } else {
+                $pdo->commit();
+            }
+            $risposta["successo"] = empty($errore);
+            $risposta["messaggio"] = empty($errore) ? "Il prodotto è stato aggiunto nel carrello!" : $errore;
         } else {
             $risposta["messaggio"] = $errore;
         }
@@ -99,21 +115,32 @@ try {
                 $stmt_delete->execute([$id_carrello, $id_prodotto]);
                 $risposta["messaggio"] = "Il prodotto è stato rimosso dal carrello.";
             } else {
-                // Aggiorna la quantità
-                $stmt_upd = $pdo->prepare("UPDATE elemento_carrello SET quantita_aggiunta = ? WHERE id_carrello = ? AND id_prodotto = ?");
-                $stmt_upd->execute([$quantita, $id_carrello, $id_prodotto]);
+                // Verifica esistenza e stock prima di aggiornare
+                $stmt_prod = $pdo->prepare("SELECT quantita_disponibile, prezzo FROM prodotto WHERE id = ?");
+                $stmt_prod->execute([$id_prodotto]);
+                $dati_prodotto = $stmt_prod->fetch();
 
-                // Calcolo del totale
-                $stmt_prz = $pdo->prepare("SELECT prezzo FROM prodotto WHERE id = ?");
-                $stmt_prz->execute([$id_prodotto]);
-                $prezzo_unitario = $stmt_prz->fetchColumn();
+                if (!$dati_prodotto) {
+                    $errore = "Il prodotto selezionato non esiste.";
+                } elseif ($quantita > $dati_prodotto["quantita_disponibile"]) {
+                    $errore = "Quantità non disponibile: restano solo " . $dati_prodotto["quantita_disponibile"] . " pezzi di questo prodotto.";
+                } else {
+                    // Aggiorna la quantità
+                    $stmt_upd = $pdo->prepare("UPDATE elemento_carrello SET quantita_aggiunta = ? WHERE id_carrello = ? AND id_prodotto = ?");
+                    $stmt_upd->execute([$quantita, $id_carrello, $id_prodotto]);
 
-                $risposta["dati"]["totale_riga"] = prezzoEuro($prezzo_unitario * $quantita);
-                $risposta["messaggio"] = "Il totale del carrello è stato aggiornato.";
+                    $risposta["dati"]["totale_riga"] = prezzoEuro($dati_prodotto["prezzo"] * $quantita);
+                    $risposta["messaggio"] = "Il totale del carrello è stato aggiornato.";
+                }
             }
 
-            $pdo->commit();
-            $risposta["successo"] = true;
+            if (!empty($errore)) {
+                $pdo->rollBack();
+                $risposta["messaggio"] = $errore;
+            } else {
+                $pdo->commit();
+                $risposta["successo"] = true;
+            }
         } else {
             $risposta["messaggio"] = $errore;
         }

@@ -50,28 +50,6 @@ if (empty($id_indirizzo) || empty($id_pagamento)) {
             $errore = "L'indirizzo di spedizione selezionato non è valido.";
         } elseif (!$dati_pagamento) {
             $errore = "Il metodo di pagamento selezionato non è valido.";
-        } else {
-            // Recupera articoli del carrello per calcolare totale e verificare stock
-            $sql_carrello = "SELECT ec.id_prodotto, ec.quantita_aggiunta, p.prezzo, p.nome, p.quantita_disponibile, p.id_negoziante, c.id as id_carrello
-                             FROM elemento_carrello AS ec 
-                             JOIN carrello AS c ON ec.id_carrello = c.id 
-                             JOIN prodotto AS p ON ec.id_prodotto = p.id
-                             WHERE c.id_cliente = ?";
-            $stmt_carrello = $pdo->prepare($sql_carrello);
-            $stmt_carrello->execute([$id_cliente]);
-            $prodotti = $stmt_carrello->fetchAll();
-
-            if (empty($prodotti)) {
-                $errore = "Il tuo carrello è vuoto.";
-            } else {
-                // Controlla la disponibilità dei prodotti nel magazzino prima di iniziare la transazione
-                foreach ($prodotti as $prodotto) {
-                    if ($prodotto["quantita_aggiunta"] > $prodotto["quantita_disponibile"]) {
-                        $errore = "Il prodotto '" . $prodotto["nome"] . "' non è più disponibile nella quantità richiesta.";
-                        break; 
-                    }
-                }
-            }
         }
     } catch (PDOException $e) {
         $errore = "Si è verificato un errore durante la verifica dei dati relativi all'ordine. Riprova più tardi.";
@@ -85,6 +63,44 @@ if (empty($id_indirizzo) || empty($id_pagamento)) {
     if (empty($errore)) {
         try {
             $pdo->beginTransaction();
+
+            // Recupera articoli del carrello
+            $sql_carrello = "SELECT ec.id_prodotto, ec.quantita_aggiunta, p.prezzo, p.nome, p.quantita_disponibile, p.id_negoziante, c.id as id_carrello
+                             FROM elemento_carrello AS ec 
+                             JOIN carrello AS c ON ec.id_carrello = c.id 
+                             JOIN prodotto AS p ON ec.id_prodotto = p.id
+                             WHERE c.id_cliente = ?";
+            $stmt_carrello = $pdo->prepare($sql_carrello);
+            $stmt_carrello->execute([$id_cliente]);
+            $prodotti = $stmt_carrello->fetchAll();
+
+            if (empty($prodotti)) {
+                $errore = "Il tuo carrello è vuoto.";
+            } else {
+                /* Blocca le righe dei prodotti e ricontrolla la disponibilità
+                 * dentro la transazione: senza lock due checkout concorrenti
+                 * supererebbero entrambi il controllo precedente.
+                 */
+                $ids_prodotti = array_column($prodotti, "id_prodotto");
+                $segnaposto = implode(",", array_fill(0, count($ids_prodotti), "?"));
+                $stmt_lock = $pdo->prepare("SELECT id, quantita_disponibile FROM prodotto WHERE id IN ($segnaposto) FOR UPDATE");
+                $stmt_lock->execute($ids_prodotti);
+                $stock_reale = [];
+                foreach ($stmt_lock->fetchAll() as $riga) {
+                    $stock_reale[$riga["id"]] = $riga["quantita_disponibile"];
+                }
+
+                foreach ($prodotti as $prodotto) {
+                    if (!isset($stock_reale[$prodotto["id_prodotto"]]) || $prodotto["quantita_aggiunta"] > $stock_reale[$prodotto["id_prodotto"]]) {
+                        $errore = "Il prodotto '" . $prodotto["nome"] . "' non è più disponibile nella quantità richiesta.";
+                        break;
+                    }
+                }
+            }
+
+            if (!empty($errore)) {
+                $pdo->rollBack();
+            } else {
 
             // Calcola il totale dell'ordine
             $totale_ordine = 0;
@@ -144,6 +160,8 @@ if (empty($id_indirizzo) || empty($id_pagamento)) {
 
             $pdo->commit();
             $successo = "L'ordine è stato effettuato con successo!";
+
+            } // chiude il ramo else (nessun errore di stock)
 
         } catch (PDOException $e) {
             $pdo->rollBack();
