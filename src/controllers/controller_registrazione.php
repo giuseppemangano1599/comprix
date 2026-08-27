@@ -68,13 +68,8 @@ if (empty($username) || empty($email) || empty($password) || !in_array($tipo_ute
         $esistente = $stmt->fetch();
 
         if ($esistente) {
-            if ($esistente["username"] === $username) {
-                $errore = "Questo username è già registrato. Scegline un altro.";
-            } elseif (strtolower($esistente["email"]) === $email) {
-                $errore = "Questo indirizzo e-mail è già registrato. Scegline un altro.";
-            } else {
-                $errore = "I dati inseriti risultano già registrati.";
-            }
+            // Messaggio unico per non rivelare quale campo è già in uso
+            $errore = "Questo username o indirizzo e-mail è già registrato.";
         }
     } catch (Exception $e) {
         $errore = "Si è verificato un errore durante la verifica. Riprova più tardi.";

@@ -121,8 +121,8 @@ if (empty($errore)) {
             $check->execute([$id_pagamento, $id_utente]);
 
             if ($check->fetch()) {
-                $stmt = $pdo->prepare("UPDATE metodo_pagamento SET descrizione = ?, dati_pagamento = ? WHERE id = ?");
-                $stmt->execute([$descrizione, $json_str, $id_pagamento]);
+                $stmt = $pdo->prepare("UPDATE metodo_pagamento SET tipo = ?, descrizione = ?, dati_pagamento = ? WHERE id = ? AND id_cliente = ?");
+                $stmt->execute([$tipo, $descrizione, $json_str, $id_pagamento, $id_utente]);
                 $successo = "Il metodo di pagamento è stato aggiornato.";
             } else {
                 $errore = "Si è verificato un errore durante l'aggiornamento. Riprova più tardi.";
@@ -132,8 +132,8 @@ if (empty($errore)) {
             $check->execute([$id_pagamento, $id_utente]);
 
             if ($check->fetch()) {
-                $stmt = $pdo->prepare("DELETE FROM metodo_pagamento WHERE id = ?");
-                $stmt->execute([$id_pagamento]);
+                $stmt = $pdo->prepare("DELETE FROM metodo_pagamento WHERE id = ? AND id_cliente = ?");
+                $stmt->execute([$id_pagamento, $id_utente]);
                 $successo = "Il metodo di pagamento è stato eliminato";
             } else {
                 $errore = "Si è verificato un errore durante l'eliminazione. Riprova più tardi.";

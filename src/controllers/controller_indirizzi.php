@@ -83,8 +83,8 @@ if (empty($errore)) {
             $check->execute([$id_indirizzo, $id_utente]);
 
             if ($check->fetch()) {
-                $stmt = $pdo->prepare("DELETE FROM indirizzo_spedizione WHERE id = ?");
-                $stmt->execute([$id_indirizzo]);
+                $stmt = $pdo->prepare("DELETE FROM indirizzo_spedizione WHERE id = ? AND id_cliente = ?");
+                $stmt->execute([$id_indirizzo, $id_utente]);
                 $successo = "L'indirizzo è stato eliminato con successo!";
             } else {
                 $errore = "L'indirizzo non è stato trovato.";
