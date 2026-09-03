@@ -16,7 +16,7 @@ if (!verificaNegoziante()) {
     exit;
 }
 
-if (!csrf_valido()) {
+if (!csrfValido()) {
     $_SESSION["error"] = "Richiesta non valida o scaduta. Riprova.";
     header("Location: ../seller/gestione_prodotti.php");
     exit;
@@ -58,18 +58,12 @@ if ($id_prodotto <= 0) {
 
             // Cancella le foto associate al prodotto
             foreach ($foto_prodotto as $foto) {
-                $percorso_completo = "../" . $foto;
-                if (file_exists($percorso_completo)) {
-                    unlink($percorso_completo);
-                }
+                eliminaFileUpload($foto);
             }
 
             // Cancella foto delle recensioni associate al prodotto
             foreach ($foto_recensioni as $file) {
-                $percorso_completo = "../" . $file;
-                if (file_exists($percorso_completo)) {
-                    unlink($percorso_completo);
-                }
+                eliminaFileUpload($file);
             }
 
             $pdo->commit();

@@ -15,12 +15,9 @@ if ($id_indirizzo <= 0) {
 }
 
 // Recupera i messaggi di successo o errore dalla sessione e pulisce le variabili per evitare messaggi persistenti
-$errore = $_SESSION["error"] ?? "";
-unset($_SESSION["error"]);
-$successo = $_SESSION["success"] ?? "";
-unset($_SESSION["success"]);
-$dati_form = $_SESSION["dati_form"] ?? [];
-unset($_SESSION["dati_form"]);
+$errore = flash("error");
+$successo = flash("success");
+$dati_form = datiPrecedenti();
 
 // Caricamento dei dati associati all'indirizzo
 if (empty($dati_form)) {
@@ -58,7 +55,7 @@ include "../includes/header.php";
 
     <form method="POST" action="../controllers/controller_indirizzi.php">
         <input type="hidden" name="azione" value="aggiorna">
-        <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
+        <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
         <input type="hidden" name="id_indirizzo" value="<?= $dati_form['id'] ?>">
 
         <div class="form-group">

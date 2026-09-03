@@ -9,10 +9,8 @@ if (!verificaCliente()) {
 }
 
 // Recupera i messaggi di successo o errore dalla sessione e pulisce le variabili per evitare messaggi persistenti
-$errore = $_SESSION["error"] ?? "";
-unset($_SESSION["error"]);
-$dati_form = $_SESSION["dati_form"] ?? [];
-unset($_SESSION["dati_form"]);
+$errore = flash("error");
+$dati_form = datiPrecedenti();
 
 $nome_pagina = "Aggiungi un nuovo indirizzo";
 include "../includes/header.php";
@@ -28,7 +26,7 @@ include "../includes/header.php";
     <?php endif; ?>
 
     <form method="POST" action="../controllers/controller_indirizzi.php">
-        <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
+        <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
         <input type="hidden" name="azione" value="inserisci">
 
         <div class="form-group">

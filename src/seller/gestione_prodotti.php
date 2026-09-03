@@ -12,10 +12,8 @@ if (!verificaNegoziante()) {
 }
 
 // Recupera i messaggi di successo o errore dalla sessione e pulisce le variabili per evitare messaggi persistenti
-$errore = $_SESSION["error"] ?? "";
-unset($_SESSION["error"]);
-$successo = $_SESSION["success"] ?? "";
-unset($_SESSION["success"]);
+$errore = flash("error");
+$successo = flash("success");
 
 // Recupera tutti i prodotti del negoziante (valutare se fare una view?)
 $stmt = $pdo->prepare(
@@ -111,7 +109,7 @@ include "../includes/header.php";
 
         <form method="POST" action="../controllers/controller_elimina_prodotto.php">
             <input type="hidden" name="delete_product_id" id="modal-product-id">
-            <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
+            <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
 
             <div class="form-actions" style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
                 <button type="button" class="btn-secondary close-modal">Annulla</button>

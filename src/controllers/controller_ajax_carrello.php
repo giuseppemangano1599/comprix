@@ -30,7 +30,7 @@ if (!verificaCliente()) {
     exit;
 }
 
-if (!csrf_valido()) {
+if (!csrfValido()) {
     $risposta["messaggio"] = "Richiesta non valida o scaduta. Ricarica la pagina e riprova.";
     echo json_encode($risposta);
     exit;

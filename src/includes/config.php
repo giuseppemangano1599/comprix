@@ -12,30 +12,30 @@
 
 // Definizione del percorso assoluto della root del progetto, utile per includere file in modo sicuro
 const ROOT_PATH = __DIR__ . '/../';
-const BASE_URL = 'http://localhost:8080/';
+const BASE_URL = "http://localhost:8080/";
 
 
 // Definizione dell'ambiente di sviluppo o produzione, utile per la gestione degli errori e dei log
-define('ENVIRONMENT', 'development'); // Cambiare con "production" quando si è in produzione
+const ENVIRONMENT = "development"; // Cambiare con "production" quando si è in produzione
 
 
 // Configurazione della gestione degli errori in base all'ambiente
 if (ENVIRONMENT === "development") {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
+    ini_set("display_errors", 1);
+    ini_set("display_startup_errors", 1);
     error_reporting(E_ALL);
 } else {
-    ini_set('display_errors', 0);
-    ini_set('display_startup_errors', 0);
+    ini_set("display_errors", 0);
+    ini_set("display_startup_errors", 0);
     error_reporting(E_ALL);
-    ini_set('log_errors', 1);
+    ini_set("log_errors", 1);
 
     // Se la cartella logs non esiste, la crea al volo con i permessi corretti
-    if (!is_dir(ROOT_PATH . 'logs/')) {
-        mkdir(ROOT_PATH . 'logs/', 0755, true);
+    if (!is_dir(ROOT_PATH . "logs/")) {
+        mkdir(ROOT_PATH . "logs/", 0755, true);
     }
 
-    ini_set('error_log', ROOT_PATH . 'logs/php_error.log');
+    ini_set("error_log", ROOT_PATH . "logs/php_error.log");
 }
 
 
@@ -54,7 +54,7 @@ const NOME_SITO = "Comprix";
 
 
 /**
- * Configurazione della costante che definisce lìarray delle domande segrete 
+ * Configurazione della costante che definisce l'array delle domande segrete 
  * di sicurezza per il recupero delle credenziali. 
  */
 const DOMANDE_SEGRETE = [
@@ -134,7 +134,7 @@ function h(?string $string): string {
  *
  * @return string Il token CSRF della sessione corrente.
  */
-function csrf_token(): string {
+function csrfToken(): string {
     if (empty($_SESSION["csrf_token"])) {
         $_SESSION["csrf_token"] = bin2hex(random_bytes(32));
     }
@@ -147,7 +147,7 @@ function csrf_token(): string {
  *
  * @return bool Restituisce true se il token è presente e valido, false altrimenti.
  */
-function csrf_valido(): bool {
+function csrfValido(): bool {
     return isset($_POST["csrf_token"], $_SESSION["csrf_token"])
         && hash_equals($_SESSION["csrf_token"], (string)$_POST["csrf_token"]);
 }
@@ -205,6 +205,46 @@ function prezzoEuro(float $price): string {
 
 
 /**
+ * Legge un messaggio flash dalla sessione e lo rimuove (lettura singola).
+ *
+ * @param string $chiave La chiave del messaggio ("error", "success").
+ * @return string Il messaggio o stringa vuota se assente.
+ */
+function flash(string $chiave): string {
+    $valore = $_SESSION[$chiave] ?? "";
+    unset($_SESSION[$chiave]);
+    return is_string($valore) ? $valore : "";
+}
+
+
+/**
+ * Legge i dati del form salvati in sessione dopo un errore e li rimuove.
+ *
+ * @return array I dati per ripopolare il form o array vuoto se assenti.
+ */
+function datiPrecedenti(): array {
+    $dati = $_SESSION["dati_form"] ?? [];
+    unset($_SESSION["dati_form"]);
+    return is_array($dati) ? $dati : [];
+}
+
+
+/**
+ * Elimina un file caricato dagli upload (stessa semantica di prima:
+ * cancella solo se il file esiste).
+ *
+ * @param string $percorso_relativo Percorso relativo alla docroot (es. "uploads/products/x.jpg").
+ * @return void
+ */
+function eliminaFileUpload(string $percorso_relativo): void {
+    $percorso_completo = "../" . $percorso_relativo;
+    if (file_exists($percorso_completo)) {
+        unlink($percorso_completo);
+    }
+}
+
+
+/**
  * Restituisce il numero totale degli articoli nel carrello del cliente nel badge sulla navbar.
  * Verifica se l'utente è sia loggato che un cliente, successivamente interroga la base di dati
  * per richiedere il numero di articoli presenti nel carrello del cliente.
@@ -212,7 +252,7 @@ function prezzoEuro(float $price): string {
  * @param PDO $pdo L'istanza attiva della connessione al database.
  * @return int Il numero di articoli presenti nel carrello del cliente
  */
-function articoliCarrelloNavbar(mixed $pdo): int {
+function articoliCarrelloNavbar(PDO $pdo): int {
     // Solo i clienti possono avere un (e unico) carrello
     if (!verificaCliente()) {
         return 0;
@@ -235,7 +275,7 @@ function articoliCarrelloNavbar(mixed $pdo): int {
  * @return array L'array multidimensionale con dentro altri array associativi
  * che contengono le categorie dei prodotti salvate nella base di dati
  */
-function recuperaCategorie(mixed $pdo): array {
+function recuperaCategorie(PDO $pdo): array {
     $stmt = $pdo->query("SELECT id, nome FROM categoria ORDER BY nome");
     return $stmt->fetchAll();
 }
@@ -251,8 +291,7 @@ function recuperaCategorie(mixed $pdo): array {
  * @return PDOStatement $stmt Restituisce l'oggetto che contiene la query eseguita, 
  * o il numero di righe modificate per UPDATE/DELETE.
  */
-function db_query(PDO $pdo, string $sql, array $params = []): PDOStatement {
-    
+function dbQuery(PDO $pdo, string $sql, array $params = []): PDOStatement {
     // Prepara la query
     $stmt = $pdo->prepare($sql);
     

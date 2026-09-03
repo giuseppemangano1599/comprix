@@ -32,7 +32,7 @@ if (!verificaCliente()) {
     exit;
 }
 
-if (!csrf_valido()) {
+if (!csrfValido()) {
     $risposta["messaggio"] = "Richiesta non valida o scaduta. Ricarica la pagina e riprova.";
     echo json_encode($risposta);
     exit;
@@ -223,10 +223,7 @@ try {
                     $percorso = $stmt_path->fetchColumn();
 
                     if ($percorso) {
-                        $percorso_completo = "../" . $percorso;
-                        if (file_exists($percorso_completo)) {
-                            unlink($percorso_completo);
-                        }
+                        eliminaFileUpload($percorso);
                         $stmt_delete = $pdo->prepare("DELETE FROM foto_recensione WHERE id = ?");
                         $stmt_delete->execute([$id_foto]);
                     }
@@ -290,10 +287,7 @@ try {
             $lista_foto = $stmt_foto->fetchAll(PDO::FETCH_COLUMN);
 
             foreach ($lista_foto as $file) {
-                $percorso_completo = "../" . $file;
-                if (file_exists($percorso_completo)) {
-                    unlink($percorso_completo);
-                }
+                eliminaFileUpload($file);
             }
 
             $stmt_delete = $pdo->prepare("DELETE FROM recensione WHERE id = ?");

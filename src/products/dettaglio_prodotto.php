@@ -196,7 +196,7 @@ include "../includes/header.php";
                 <h3>Scrivi la tua recensione</h3>
                 <form id="form-aggiungi-recensione" enctype="multipart/form-data">
                     <input type="hidden" name="azione" value="aggiungi">
-                    <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
+                    <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
                     <input type="hidden" name="id_prodotto" value="<?= $id_prodotto ?>">
 
                     <div class="form-group">
@@ -242,7 +242,7 @@ include "../includes/header.php";
         <p>Sei sicuro di voler eliminare questa recensione?</p>
         <form id="form-elimina-recensione">
             <input type="hidden" name="azione" value="elimina">
-            <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
+            <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
             <input type="hidden" name="id_recensione" id="id-recensione-elimina">
             
             <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
@@ -258,7 +258,7 @@ include "../includes/header.php";
         <h3>Modifica la recensione</h3>
         <form id="form-modifica-recensione" enctype="multipart/form-data">
             <input type="hidden" name="azione" value="modifica">
-            <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
+            <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
             <input type="hidden" name="id_recensione" id="id-recensione-modifica">
 
             <div class="form-group">

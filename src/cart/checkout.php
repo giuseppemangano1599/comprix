@@ -38,8 +38,7 @@ $pagamenti = $stmt_pagamenti->fetchAll();
 $puo_procedere = (count($indirizzi) > 0 && count($pagamenti) > 0);
 
 // Recupera i messaggi di errore dalla sessione e pulisce la variabile per evitare messaggi persistenti
-$errore = $_SESSION["error"] ?? "";
-unset($_SESSION["error"]);
+$errore = flash("error");
 
 $nome_pagina = "Checkout dell'ordine";
 include "../includes/header.php";
@@ -54,7 +53,7 @@ include "../includes/header.php";
     <?php endif; ?>
 
     <form id="form_checkout" action="../controllers/controller_checkout.php" method="POST">
-        <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
+        <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
 
         <div style="display: flex; gap: 30px; flex-wrap: wrap;">
 

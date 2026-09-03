@@ -25,10 +25,8 @@ $stmt->execute([$id_utente]);
 $lista_ordini = $stmt->fetchAll();
 
 // Recupera i messaggi di successo o errore dalla sessione e pulisce le variabili per evitare messaggi persistenti
-$errore = $_SESSION["error"] ?? "";
-unset($_SESSION["error"]);
-$successo = $_SESSION["success"] ?? "";
-unset($_SESSION["success"]);;
+$errore = flash("error");
+$successo = flash("success");
 
 $nome_pagina = "I miei ordini";
 include "../includes/header.php";
@@ -144,7 +142,7 @@ include "../includes/header.php";
 
     <form method="POST" action="../controllers/controller_ordini.php">
         <input type="hidden" name="azione" value="annulla_ordine">
-        <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
+        <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
         <input type="hidden" name="id_ordine" id="input_id_ordine_annulla">
 
         <div class="form-group" style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">

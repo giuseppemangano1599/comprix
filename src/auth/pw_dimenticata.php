@@ -18,10 +18,8 @@ if (verificaNegoziante()) {
 }
 
 // Recupera i messaggi di successo o errore dalla sessione e pulisce le variabili per evitare messaggi persistenti
-$errore = $_SESSION["error"] ?? "";
-unset($_SESSION["error"]);
-$successo = $_SESSION["success"] ?? "";
-unset($_SESSION["success"]);
+$errore = flash("error");
+$successo = flash("success");
 
 $nome_pagina = "Recupero della password";
 
@@ -43,7 +41,7 @@ include_once "../includes/header.php";
         <?php endif; ?>
 
         <form method="POST" action="../controllers/controller_pw_dimenticata.php" id="fp-form">
-            <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
+            <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
 
             <fieldset id="step-1-container">
                 <div class="form-group">

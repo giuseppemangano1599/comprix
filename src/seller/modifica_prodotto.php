@@ -18,14 +18,11 @@ if ($id_prodotto <= 0) {
 }
 
 // Recupera i messaggi di successo o errore dalla sessione e pulisce le variabili per evitare messaggi persistenti
-$errore = $_SESSION["error"] ?? "";
-unset($_SESSION["error"]);
-$successo = $_SESSION["success"] ?? "";
-unset($_SESSION["success"]);
+$errore = flash("error");
+$successo = flash("success");
 
 // Recupera i dati del form dalla sessione per ripopolare i campi dopo un errore
-$dati_form = $_SESSION["dati_form"] ?? [];
-unset($_SESSION["dati_form"]);
+$dati_form = datiPrecedenti();
 
 // Recupera i dati del prodotto
 $stmt = $pdo->prepare("SELECT * FROM prodotto WHERE id = ? AND id_negoziante = ?");
@@ -67,7 +64,7 @@ include "../includes/header.php";
 
     <form method="POST" enctype="multipart/form-data" action="../controllers/controller_modifica_prodotto.php">
         <input type="hidden" name="action" value="update_product">
-        <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
+        <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
         <input type="hidden" name="id_prodotto" value="<?= $id_prodotto ?>">
 
         <div class="form-group">
@@ -176,7 +173,7 @@ include "../includes/header.php";
 
         <form method="POST" action="../controllers/controller_modifica_prodotto.php">
             <input type="hidden" name="action" value="delete_photo">
-            <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
+            <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
             <input type="hidden" name="id_prodotto" value="<?= $id_prodotto ?>">
             <input type="hidden" name="id_foto" id="modal-photo-id">
 

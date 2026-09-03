@@ -17,7 +17,7 @@ if (!verificaNegoziante()) {
     exit;
 }
 
-if (!csrf_valido()) {
+if (!csrfValido()) {
     $_SESSION["error"] = "Richiesta non valida o scaduta. Riprova.";
     header("Location: ../seller/gestione_prodotti.php");
     exit;
@@ -64,10 +64,7 @@ if ($azione === "delete_photo") {
             // Se la foto esiste
             if ($foto) {
                 // Elimina il file
-                $percorso_completo = "../" . $foto["percorso_file"];
-                if (file_exists($percorso_completo)) {
-                    unlink($percorso_completo);
-                }
+                eliminaFileUpload($foto["percorso_file"]);
 
                 // Elimina il record dal database
                 $stmt_delete = $pdo->prepare("DELETE FROM foto_prodotto WHERE id = ?");

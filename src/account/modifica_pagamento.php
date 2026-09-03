@@ -15,13 +15,10 @@ if ($id_pagamento <= 0) {
 }
 
 // Recupera i messaggi di successo o errore dalla sessione e pulisce le variabili per evitare messaggi persistenti
-$errore = $_SESSION["error"] ?? "";
-unset($_SESSION["error"]);
-$successo = $_SESSION["success"] ?? "";
-unset($_SESSION["success"]);
+$errore = flash("error");
+$successo = flash("success");
 
-$dati_form = $_SESSION["dati_form"] ?? [];
-unset($_SESSION["dati_form"]);
+$dati_form = datiPrecedenti();
 
 // Mappa dei metodi di pagamento per visualizzarli correttamente nel form
 $etichette_pagamento = [
@@ -73,7 +70,7 @@ include "../includes/header.php";
 
     <form method="POST" action="../controllers/controller_pagamenti.php">
         <input type="hidden" name="azione" value="aggiorna">
-        <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
+        <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
         <input type="hidden" name="id_pag" value="<?= h($dati_form["id"]) ?>">
 
         <div class="form-group">
@@ -108,7 +105,7 @@ include "../includes/header.php";
                     id="nome_titolare"
                     name="nome_titolare"
                     class="form-control"
-                    value="<?= h($dati_form["nome_titolare"]) ?? "" ?>">
+                    value="<?= h($dati_form["nome_titolare"] ?? "") ?>">
             </div>
 
             <div class="form-group">

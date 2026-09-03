@@ -14,14 +14,11 @@ if (verificaNegoziante()) {
 }
 
 // Recupera i messaggi di successo o errore dalla sessione e pulisce le variabili per evitare messaggi persistenti
-$errore = $_SESSION["error"] ?? "";
-unset($_SESSION["error"]);
-$successo = $_SESSION["success"] ?? "";
-unset($_SESSION["success"]);
+$errore = flash("error");
+$successo = flash("success");
 
 // Recupera i dati del form dalla sessione per ripopolare i campi dopo un errore
-$dati_form = $_SESSION["dati_form"] ?? [];
-unset($_SESSION["dati_form"]);
+$dati_form = datiPrecedenti();
 
 $nome_pagina = "Accedi";
 
@@ -38,7 +35,7 @@ include_once "../includes/header.php";
     <?php endif; ?>
 
     <form method="POST" action="../controllers/controller_login.php" id="login-form">
-        <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
+        <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
 
         <div class="form-group">
             <label for="username-or-email">Username o e-mail:</label>

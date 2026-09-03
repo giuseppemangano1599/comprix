@@ -12,14 +12,11 @@ if (!verificaNegoziante()) {
 }
 
 // Recupera i messaggi di successo o errore dalla sessione e pulisce le variabili per evitare messaggi persistenti
-$errore = $_SESSION["error"] ?? "";
-unset($_SESSION["error"]);
-$successo = $_SESSION["success"] ?? "";
-unset($_SESSION["success"]);
+$errore = flash("error");
+$successo = flash("success");
 
 // Recupera i dati dal form in caso di errore per ripopolare i campi
-$dati_form = $_SESSION["dati_form"] ?? [];
-unset($_SESSION["dati_form"]);
+$dati_form = datiPrecedenti();
 
 // Recupera le categorie disponibili
 $categorie = recuperaCategorie($pdo);
@@ -46,7 +43,7 @@ include "../includes/header.php";
         <?php endif; ?>
 
         <form method="POST" enctype="multipart/form-data" action="../controllers/controller_aggiungi_prodotto.php">
-            <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
+            <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
 
             <div class="form-group">
                 <label for="name">Nome del prodotto:</label>

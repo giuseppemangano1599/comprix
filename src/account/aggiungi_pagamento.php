@@ -9,10 +9,8 @@ if (!verificaCliente()) {
 }
 
 // Recupera i messaggi di successo o errore dalla sessione e pulisce le variabili per evitare messaggi persistenti
-$errore = $_SESSION["error"] ?? "";
-unset($_SESSION["error"]);
-$dati_form = $_SESSION["dati_form"] ?? [];
-unset($_SESSION["dati_form"]);
+$errore = flash("error");
+$dati_form = datiPrecedenti();
 
 $nome_pagina = "Aggiungi un nuovo metodo di pagamento";
 include "../includes/header.php";
@@ -29,7 +27,7 @@ include "../includes/header.php";
 
     <form method="POST" action="../controllers/controller_pagamenti.php">
         <input type="hidden" name="azione" value="inserisci">
-        <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
+        <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
 
         <div class="form-group">
             <label for="descrizione">Descrizione</label>
