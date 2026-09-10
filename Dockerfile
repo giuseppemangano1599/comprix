@@ -1,5 +1,5 @@
-# Prende l'ultima versione ufficiale di PHP con Apache
-FROM php:apache
+# Versione pinnata: stessa major/minor dell'ambiente documentato (PHP 8.2, XAMPP)
+FROM php:8.2-apache
 
 # Aggiorna i pacchetti e installa le estensioni di base per i database (PDO e MySQLi)
 RUN apt-get update && apt-get install -y \

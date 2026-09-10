@@ -10,9 +10,9 @@ services:
     depends_on:
       - db
 
-# DBMS (MariaDB)
+# DBMS (MariaDB 11.4 LTS: supporta le funzioni JSON usate dai trigger)
   db:
-    image: mariadb:latest
+    image: mariadb:11.4
     container_name: comprix_db
     restart: always
     environment:
@@ -27,9 +27,9 @@ services:
       - db_data:/var/lib/mysql
       - ./db:/docker-entrypoint-initdb.d
 
-  # phpMyAdmin
+  # phpMyAdmin (major pin, riceve le patch)
   phpmyadmin:
-    image: phpmyadmin:latest
+    image: phpmyadmin:5.2
     container_name: comprix_pma
     links:
       - db

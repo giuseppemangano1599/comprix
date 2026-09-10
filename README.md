@@ -16,5 +16,56 @@ L'attuale configurazione Docker separa i servizi in contenitori distinti:
 - Un database basato su MariaDB.
 - Un'interfaccia di gestione phpMyAdmin.
 
+Versioni pinnate (build riproducibili): `php:8.2-apache`, `mariadb:11.4`, `phpmyadmin:5.2`.
+MariaDB 11.4 LTS è richiesto dalle funzioni JSON usate dai trigger
+(`db/dump.sql`); il dump originale era tarato su PHP 8.2 / MariaDB 10.4.
+
+## Avvio rapido
+
+Prerequisiti: Docker con plugin Compose, porte libere 8080, 8081, 3306.
+
+```bash
+docker compose up --build
+```
+
+- Sito: http://localhost:8080
+- phpMyAdmin: http://localhost:8081
+- MySQL dall'host: `localhost:3306`
+
+Credenziali database: utente `developer` / `password`, root / `root`,
+database `comprix_db`. Dentro i container l'host DB è `db`
+(`DB_HOST` in `src/includes/config.php`); `localhost` vale solo dall'host.
+
+## Account demo (solo sviluppo locale)
+
+Dal seed (`db/dump.sql`): clienti `jack_sparrow`, `deliaaa`;
+negozianti `angolotecnologico`, `lacasadimarti`, `libreria.delcorso`,
+`nonsolo_sport`. Password e risposte segrete: vedi "Dati di prova" nella
+relazione (`relazione_progetto_BDD_LPW.pdf`).
+
+## Database e seed
+
+`./db:/docker-entrypoint-initdb.d`: `db/dump.sql` viene importato solo al
+primo avvio, a volume `db_data` vuoto. Per resettare (cancella tutti i dati):
+
+```bash
+docker compose down -v && docker compose up --build
+```
+
+Dopo un cambio di immagine MariaDB il reset è obbligatorio: un datadir
+creato da una versione più recente non si avvia su una precedente.
+
+## Note operative
+
+- `src/` è la docroot (`./src:/var/www/html`); `src/uploads/` contiene sia
+  le immagini di esempio sia i nuovi upload: non cancellarla, non committare
+  upload di test.
+- `ENVIRONMENT` in `src/includes/config.php`: `development` mostra gli
+  errori, `production` li scrive in `src/logs/php_error.log`. Nessun `.env`:
+  le credenziali stanno in `config.php` e `docker-compose.yml`.
+- Nessuna suite di test/lint: verificare con
+  `docker compose exec web php -l <file>` e prova manuale nel browser.
+- jQuery 3.7.1 è caricato da CDN: serve connettività per le parti AJAX.
+
 ## Sviluppo futuro
 Il progetto non è da considerarsi definitivo e sarà via via aggiornato nel tempo per migliorarne le funzionalità, la sicurezza e la struttura del codice.
