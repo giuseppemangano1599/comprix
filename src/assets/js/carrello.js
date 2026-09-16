@@ -55,7 +55,6 @@ $(document).ready(function () {
                     $("#cart-total, #cart-subtotal").text(risposta.dati.totale_carrello);
 
                     // Aggiorna il badge del carrello nella navbar
-                    risposta.dati.conteggio_carrello;
                     if (risposta.dati.conteggio_carrello > 0) {
                         $("#cart-count-badge").text(risposta.dati.conteggio_carrello).removeClass("hidden");
                     } else {

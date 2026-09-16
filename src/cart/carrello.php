@@ -41,19 +41,13 @@ include "../includes/header.php";
 
     <div id="msg-carrello" class="alert" style="display:none; margin-bottom: 20px;"></div>
 
-    <div id="carrello-vuoto" style="display:none; text-align:center; padding:50px;">
+    <div id="carrello-vuoto" style="<?= empty($elementi_carrello) ? "text-align:center; padding:50px;" : "display:none; text-align:center; padding:50px;" ?>">
         <h2>Il tuo carrello è vuoto</h2>
         <p>Non hai ancora aggiunto nulla.</p>
         <a href="../products/ricerca_prodotti.php" class="btn-primary" style="width:auto; margin-top:10px;">Inizia lo shopping</a>
     </div>
 
-    <?php if (empty($elementi_carrello)): ?>
-        <div id="carrello-vuoto" style="text-align:center; padding:50px;">
-            <h2>Il tuo carrello è vuoto</h2>
-            <p>Non hai ancora aggiunto nulla.</p>
-            <a href="../products/ricerca_prodotti.php" class="btn-primary" style="width:auto; margin-top:10px;">Inizia lo shopping</a>
-        </div>
-    <?php else: ?>
+    <?php if (!empty($elementi_carrello)): ?>
         <div class="cart-layout">
 
             <div class="cart-main">

@@ -134,7 +134,7 @@ include "../includes/header.php";
                     </div>
 
                     <?php if ($puo_procedere): ?>
-                        <button type="submit" id="btn_conferma" class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 1.1em; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px;">
+                        <button type="submit" id="btn_conferma" class="btn-primary" style="width: 100%; padding: 15px; font-size: 1.1em; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px;">
                             Conferma e paga
                         </button>
                     <?php else: ?>
@@ -151,7 +151,5 @@ include "../includes/header.php";
         </div>
     </form>
 </section>
-
-<script src="../assets/js/checkout.js"></script>
 
 <?php include "../includes/footer.php"; ?>

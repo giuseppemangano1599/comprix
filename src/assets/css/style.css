@@ -1,3 +1,6 @@
+/* Comprix: foglio di stile unico. Regole raggruppate per area, responsive in fondo. */
+
+/* ===== Base ===== */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -33,14 +36,22 @@ img {
   display: block;
 }
 
+/* ===== Testo e visibilità ===== */
 .text-danger {
   color: red !important;
+}
+
+/* Grigio smorzato per testi secondari (riusa #555 già usato negli inline). */
+.text-muted {
+  color: #555;
 }
 
 .hidden {
   display: none;
 }
 
+/* ===== Bottoni e badge ===== */
+/* I bottoni sono a larghezza piena di default; le eccezioni usano width:auto in loco. */
 .btn-primary,
 .btn-secondary {
   display: inline-block;
@@ -66,7 +77,24 @@ img {
   width: auto;
 }
 
+.badge {
+  display: inline-block;
+  padding: 3px 8px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  border: 1px solid #000;
+  text-align: center;
+}
 
+.badge-success {
+  background-color: green;
+}
+.badge-danger {
+  background-color: red;
+}
+
+/* ===== Layout del sito (header, nav, footer) ===== */
 header {
   border-bottom: 2px solid #000;
   padding: 15px 0;
@@ -136,6 +164,7 @@ footer {
   font-size: 12px;
 }
 
+/* ===== Form ===== */
 .form-group {
   margin-bottom: 15px;
 }
@@ -160,6 +189,93 @@ footer {
   background-color: #fff0f0;
 }
 
+/* Stati di validazione impostati via JS (stessi colori del feedback testuale). */
+.form-control.is-invalid {
+  border-color: red;
+  background-color: #fff0f0;
+}
+
+.form-control.is-valid {
+  border-color: green;
+}
+
+.form-group-checkbox {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.form-col {
+  flex: 1;
+}
+
+fieldset {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+legend {
+  font-weight: bold;
+  padding: 0 5px;
+}
+
+/* ===== Autenticazione e messaggi ===== */
+.auth-container {
+  max-width: 450px;
+  margin: 40px auto;
+  border: 1px solid #000;
+  padding: 20px;
+  background-color: #fff;
+}
+.auth-container header {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.auth-container h2 {
+  margin: 0;
+  font-size: 20px;
+}
+.alert {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #000;
+  font-size: 14px;
+  text-align: center;
+}
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border-color: #c3e6cb;
+}
+.alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border-color: #f5c6cb;
+}
+/* Variante neutra per messaggi informativi (grigio già in palette). */
+.alert-info {
+  background-color: #f0f0f0;
+  color: #000;
+  border-color: #000;
+}
+.auth-links {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 13px;
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+}
+
+/* ===== Home, vetrina e about ===== */
 .products-grid {
   display: flex;
   flex-wrap: wrap;
@@ -174,12 +290,6 @@ footer {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-}
-
-@media (max-width: 800px) {
-  .product-card {
-    width: calc(50% - 20px);
-  }
 }
 
 .product-image {
@@ -200,7 +310,6 @@ footer {
   color: green;
   margin-top: auto;
 }
-
 
 .welcome-banner {
   background-color: #f0f0f0;
@@ -239,64 +348,7 @@ footer {
   width: auto;
 }
 
-.auth-container {
-  max-width: 450px;
-  margin: 40px auto;
-  border: 1px solid #000;
-  padding: 20px;
-  background-color: #fff;
-}
-.auth-container header {
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-  text-align: center;
-}
-.auth-container h2 {
-  margin: 0;
-  font-size: 20px;
-}
-.form-group-checkbox {
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 14px;
-}
-.alert {
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #000;
-  font-size: 14px;
-  text-align: center;
-}
-.alert-success {
-  background-color: #d4edda;
-  color: #155724;
-  border-color: #c3e6cb;
-}
-.alert-error {
-  background-color: #f8d7da;
-  color: #721c24;
-  border-color: #f5c6cb;
-}
-.auth-links {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 13px;
-  border-top: 1px solid #eee;
-  padding-top: 15px;
-}
-fieldset {
-  border: 1px solid #ccc;
-  padding: 15px;
-  margin-bottom: 15px;
-}
-legend {
-  font-weight: bold;
-  padding: 0 5px;
-}
-
+/* ===== Ricerca prodotti ===== */
 .search-layout {
   display: flex;
   gap: 30px;
@@ -337,19 +389,7 @@ legend {
   color: #fff;
 }
 
-@media (max-width: 768px) {
-  .search-layout {
-    flex-direction: column;
-  }
-  .search-sidebar {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid #000;
-    padding-bottom: 20px;
-    margin-bottom: 20px;
-  }
-}
-
+/* ===== Dettaglio prodotto e recensioni ===== */
 .product-detail-layout {
   display: flex;
   gap: 40px;
@@ -451,19 +491,7 @@ legend {
   color: #ffc107;
 }
 
-@media (max-width: 768px) {
-  .product-detail-layout {
-    flex-direction: column;
-  }
-  .detail-gallery,
-  .detail-info {
-    width: 100%;
-  }
-  .reviews-grid {
-    flex-direction: column;
-  }
-}
-
+/* ===== Pannello negoziante ===== */
 .dashboard-grid {
   display: flex;
   flex-wrap: wrap;
@@ -499,12 +527,7 @@ legend {
   font-size: 18px;
 }
 
-@media (max-width: 600px) {
-  .dashboard-card {
-    width: 100%;
-  }
-}
-
+/* ===== Tabelle ===== */
 .table-container {
   overflow-x: auto;
   border: 1px solid #000;
@@ -535,45 +558,13 @@ th {
   gap: 5px;
 }
 
-.badge {
-  display: inline-block;
-  padding: 3px 8px;
-  font-size: 12px;
-  font-weight: bold;
-  color: #fff;
-  border: 1px solid #000;
-  text-align: center;
-}
-
-.badge-success {
-  background-color: green;
-}
-.badge-danger {
-  background-color: red;
-}
-
+/* ===== Form prodotto e foto ===== */
 .product-form-container {
   max-width: 800px;
   margin: 0 auto;
   border: 1px solid #000;
   padding: 20px;
   background-color: #fff;
-}
-
-.form-row {
-  display: flex;
-  gap: 20px;
-}
-
-.form-col {
-  flex: 1;
-}
-
-@media (max-width: 600px) {
-  .form-row {
-    flex-direction: column;
-    gap: 0;
-  }
 }
 
 .edit-photos-grid {
@@ -615,7 +606,7 @@ th {
   border-radius: 50%;
 }
 
-
+/* ===== Profilo e pagamenti ===== */
 .profile-layout {
   display: flex;
   gap: 30px;
@@ -629,15 +620,6 @@ th {
 
 .profile-main {
   flex-grow: 1;
-}
-
-@media (max-width: 768px) {
-  .profile-layout {
-    flex-direction: column;
-  }
-  .profile-sidebar {
-    width: 100%;
-  }
 }
 
 .profile-card {
@@ -699,10 +681,6 @@ th {
   border-bottom-color: #ffcccc;
 }
 
-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.5);
-}
-
 .payment-fields {
   display: none;
   background: #f0f0f0;
@@ -711,7 +689,7 @@ dialog::backdrop {
   margin-top: 10px;
 }
 
-
+/* ===== Carrello e checkout ===== */
 .cart-layout {
   display: flex;
   gap: 30px;
@@ -725,15 +703,6 @@ dialog::backdrop {
 .cart-sidebar {
   width: 300px;
   flex-shrink: 0;
-}
-
-@media (max-width: 768px) {
-  .cart-layout {
-    flex-direction: column;
-  }
-  .cart-sidebar {
-    width: 100%;
-  }
 }
 
 .qty-input {
@@ -800,4 +769,87 @@ dialog::backdrop {
   border-top: 1px dashed #000;
   padding-top: 15px;
   margin-top: 15px;
+}
+
+/* ===== Dialog ===== */
+/* I dialog usano lo stile nativo: solo lo sfondo è personalizzato. */
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* ===== Responsive (media query consolidate per breakpoint) ===== */
+@media (max-width: 800px) {
+  .product-card {
+    width: calc(50% - 20px);
+  }
+}
+
+@media (max-width: 768px) {
+  .search-layout {
+    flex-direction: column;
+  }
+  .search-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #000;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+  }
+  .product-detail-layout {
+    flex-direction: column;
+  }
+  .detail-gallery,
+  .detail-info {
+    width: 100%;
+  }
+  .reviews-grid {
+    flex-direction: column;
+  }
+  .profile-layout {
+    flex-direction: column;
+  }
+  .profile-sidebar {
+    width: 100%;
+  }
+  .cart-layout {
+    flex-direction: column;
+  }
+  .cart-sidebar {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-card {
+    width: 100%;
+  }
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  /* Su telefoni la navbar va a capo invece di uscire dallo schermo. */
+  nav {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .nav-links ul {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  /* Celle più compatte: le tabelle scorrono già in orizzontale. */
+  th,
+  td {
+    padding: 6px;
+  }
+  .about-cta {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 500px) {
+  /* Una sola colonna: a 2 colonne le card sarebbero illeggibili. */
+  .product-card {
+    width: 100%;
+  }
 }

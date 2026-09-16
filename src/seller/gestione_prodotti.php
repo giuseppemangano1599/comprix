@@ -73,7 +73,7 @@ include "../includes/header.php";
                                 <?php if ($prodotto["quantita_disponibile"] > 0): ?>
                                     <span class="badge badge-success">Disponibile (<?= $prodotto["quantita_disponibile"] ?>)</span>
                                 <?php else: ?>
-                                    <span class="badge badge-error">Esaurito</span>
+                                    <span class="badge badge-danger">Esaurito</span>
                                 <?php endif; ?>
                             </td>
                             <td>

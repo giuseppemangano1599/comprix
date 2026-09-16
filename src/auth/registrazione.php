@@ -37,7 +37,7 @@ include "../includes/header.php";
             <div class="alert alert-error"><?= h($errore) ?></div>
         <?php endif; ?>
 
-        <form method="POST" action="../controllers/controller_registrazione.php" id="register-form" onsubmit="return controlloForm()">
+        <form method="POST" action="../controllers/controller_registrazione.php" id="register-form">
             <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
 
             <fieldset>
