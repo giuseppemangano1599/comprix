@@ -69,41 +69,10 @@ $(document).ready(function () {
         });
     });
 
-    // Controlla se la password e la sua conferma coincidono
-    function controllaPassword() {
-        const pass = $("#new-password").val();
-        const conf = $("#confirm-password").val();
-        const $feedback = $("#confirm-password-feedback");
-        const $confirm = $("#confirm-password");
-
-        // Se la conferma è vuota, pulisci il feedback
-        if (conf === "") {
-            $confirm.removeClass("is-valid is-invalid");
-            $feedback.text("");
-            return;
-        }
-
-        // Se nella casella di input della conferma c'è qualcosa, confronta le password
-        if (pass !== conf) {
-            $confirm.removeClass("is-valid").addClass("is-invalid");
-            $feedback.text("Le password non coincidono").css("color", "red");
-        } else {
-            $confirm.removeClass("is-invalid").addClass("is-valid");
-            $feedback.text("Le password coincidono").css("color", "green");
-        }
-    }
-
-    $("#new-password, #confirm-password").on("input", controllaPassword);
-
-    // Gestisce l'interruttore per mostrare o nascondere la nuova password
-    $("#show-password").on("change", function () {
-        const type = $(this).is(":checked") ? "text" : "password";
-        $("#new-password").attr("type", type);
+    $("#new-password, #confirm-password").on("input", function () {
+        confrontaPassword("#new-password", "#confirm-password", "#confirm-password-feedback", false);
     });
 
-    // Gestisce l'interruttore per mostrare o nascondere la conferma della password
-    $("#show-confirm-password").on("change", function () {
-        const type = $(this).is(":checked") ? "text" : "password";
-        $("#confirm-password").attr("type", type);
-    });
+    impostaTogglePassword("#show-password", "#new-password");
+    impostaTogglePassword("#show-confirm-password", "#confirm-password");
 });

@@ -307,5 +307,6 @@ include "../includes/header.php";
 </dialog>
 
 
+<script src="../assets/js/common.js"></script>
 <script src="../assets/js/dettaglio_prodotto.js"></script>
 <?php include "../includes/footer.php"; ?>

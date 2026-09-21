@@ -156,6 +156,7 @@ include "../includes/header.php";
     <?php endif; ?>
 </div>
 
+<script src="../assets/js/common.js"></script>
 <script src="../assets/js/registrazione.js"></script>
 
 <?php include "../includes/footer.php"; ?>

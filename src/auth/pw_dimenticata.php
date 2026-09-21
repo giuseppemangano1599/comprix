@@ -133,6 +133,7 @@ include_once "../includes/header.php";
 
 </div>
 
+<script src="../assets/js/common.js"></script>
 <script src="../assets/js/pw_dimenticata.js"></script>
 
 <?php include "../includes/footer.php"; ?>

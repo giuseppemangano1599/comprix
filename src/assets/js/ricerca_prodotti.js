@@ -16,7 +16,6 @@ $(document).ready(function () {
     // Variabile che imposta un lieve ritardo tra la pressione di un tasto e la chiamata AJAX
     let timeout_ricerca;
 
-
     // Effettua la chiamata AJAX per caricare i prodotti
     function caricaProdotti(pagina = 1) {
         // Recupera valori attuali
@@ -58,19 +57,22 @@ $(document).ready(function () {
 
         let html = "";
         prodotti.forEach(function (p) {
-            let foto = p.foto ? "../" + p.foto : "../assets/img/nessuna_foto.png";
+            const id = escapeHtml(p.id);
+            const nome = escapeHtml(p.nome);
+            const categoria = escapeHtml(p.categoria_nome);
+            let foto = p.foto ? "../" + escapeHtml(p.foto) : "../assets/img/nessuna_foto.png";
             let prezzo = parseFloat(p.prezzo).toFixed(2).replace(".", ",") + " €";
 
             html += `
                 <article class="product-card">
-                    <a href="dettaglio_prodotto.php?id=${p.id}" class="card-img-link">
-                        <img src="${foto}" alt="${p.nome}" class="product-image" loading="lazy">
+                    <a href="dettaglio_prodotto.php?id=${id}" class="card-img-link">
+                        <img src="${foto}" alt="${nome}" class="product-image" loading="lazy">
                     </a>
                     <div class="product-info">
-                        <small class="text-muted">${p.categoria_nome}</small>
-                        <h3><a href="dettaglio_prodotto.php?id=${p.id}">${p.nome}</a></h3>
+                        <small class="text-muted">${categoria}</small>
+                        <h3><a href="dettaglio_prodotto.php?id=${id}">${nome}</a></h3>
                         <div class="product-price">${prezzo}</div>
-                        <a href="dettaglio_prodotto.php?id=${p.id}" class="btn-secondary btn-sm">Dettagli</a>
+                        <a href="dettaglio_prodotto.php?id=${id}" class="btn-secondary btn-sm">Dettagli</a>
                     </div>
                 </article>
             `;

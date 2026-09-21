@@ -61,6 +61,7 @@ include "../includes/header.php";
     </section>
 </div>
 
+<script src="../assets/js/common.js"></script>
 <script src="../assets/js/ricerca_prodotti.js"></script>
 
 <?php include "../includes/footer.php"; ?>

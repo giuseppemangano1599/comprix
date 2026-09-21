@@ -10,7 +10,7 @@ $(document).ready(function () {
     $(".delete-photo-trigger").on("click", function () {
         const id_foto = $(this).data("id");
         $id_foto_modale.val(id_foto);
-        $modale[0].showModal();
+        if ($modale[0]) $modale[0].showModal();
     });
 
     // Chiude il modale cliccando su Annulla

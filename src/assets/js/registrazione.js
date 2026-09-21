@@ -68,45 +68,11 @@ $(document).ready(function () {
     });
 
 
-    // Controlla se la password e la sua conferma coincidono
-    function controllaPassword() {
-        const pass = $("#password").val();
-        const conf = $("#confirm-password").val();
-        const $feedback = $("#confirm-password-feedback");
-        const $confirm = $("#confirm-password");
-
-        // Se la conferma è vuota, pulisci il feedback
-        if (conf === "") {
-            $confirm.removeClass("is-valid is-invalid");
-            $confirm[0].setCustomValidity("");
-            $feedback.text("");
-            return;
-        }
-
-        // Se c'è qualcosa nella conferma, confronta le password
-        if (pass !== conf) {
-            $confirm.removeClass("is-valid").addClass("is-invalid");
-            $confirm[0].setCustomValidity("Le password non coincidono");
-            $feedback.text("Le password non coincidono").css("color", "red");
-        } else {
-            $confirm.removeClass("is-invalid").addClass("is-valid");
-            $confirm[0].setCustomValidity("");
-            $feedback.text("Le password coincidono").css("color", "green");
-        }
-    }
-
-    // Controlla appena viene digitato un carattere
-    $("#password, #confirm-password").on("input", controllaPassword);
-
-    // Gestisce l'interruttore per mostrare o nascondere la password
-    $("#show-password").on("change", function () {
-        const type = $(this).is(":checked") ? "text" : "password";
-        $("#password").attr("type", type);
+    // Controlla appena viene digitato un carattere (blocca anche l'invio se non coincidono)
+    $("#password, #confirm-password").on("input", function () {
+        confrontaPassword("#password", "#confirm-password", "#confirm-password-feedback", true);
     });
 
-    // Gestisce l'interruttore per mostrare o nascondere la conferma della password
-    $("#show-confirm-password").on("change", function () {
-        const type = $(this).is(":checked") ? "text" : "password";
-        $("#confirm-password").attr("type", type);
-    });
+    impostaTogglePassword("#show-password", "#password");
+    impostaTogglePassword("#show-confirm-password", "#confirm-password");
 });

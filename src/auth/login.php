@@ -77,6 +77,7 @@ include_once "../includes/header.php";
     </div>
 </div>
 
+<script src="../assets/js/common.js"></script>
 <script src="../assets/js/login.js"></script>
 
 <?php include_once "../includes/footer.php"; ?>

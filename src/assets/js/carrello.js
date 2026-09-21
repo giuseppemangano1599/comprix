@@ -48,18 +48,14 @@ $(document).ready(function () {
                     } else {
                         // Aggiorna gli input e il subtotale della riga
                         $("#qty-" + id_prodotto).val(nuova_quantita);
-                        $("#subtotal-" + id_prodotto).html("<strong>" + risposta.dati.totale_riga + "</strong>");
+                        $("#subtotal-" + id_prodotto).empty().append($("<strong>").text(risposta.dati.totale_riga));
                     }
 
                     // Aggiorna i totali globali
                     $("#cart-total, #cart-subtotal").text(risposta.dati.totale_carrello);
 
                     // Aggiorna il badge del carrello nella navbar
-                    if (risposta.dati.conteggio_carrello > 0) {
-                        $("#cart-count-badge").text(risposta.dati.conteggio_carrello).removeClass("hidden");
-                    } else {
-                        $("#cart-count-badge").addClass("hidden");
-                    }
+                    aggiornaBadgeCarrello(risposta.dati.conteggio_carrello);
                 } else {
                     mostraMessaggio(false, risposta.messaggio);
                 }
@@ -77,7 +73,7 @@ $(document).ready(function () {
         const id = $(this).data("id");
         const max = $(this).data("max");
         const $riga = $("#row-" + id);
-        let quantita_attuale = parseInt($("#qty-" + id).val());
+        let quantita_attuale = parseInt($("#qty-" + id).val(), 10);
 
         if (azione === "increase") {
             if (quantita_attuale < max) {
@@ -91,7 +87,8 @@ $(document).ready(function () {
             } else {
                 // Se la quantità è 1 e si clicca meno, apre il modale di conferma
                 id_da_rimuovere = id;
-                $("#modale-rimozione")[0].showModal();
+                const dialogo_conferma = $("#modale-rimozione")[0];
+                if (dialogo_conferma) dialogo_conferma.showModal();
             }
         }
     });
@@ -100,7 +97,8 @@ $(document).ready(function () {
     // Gestisce la rimozione di un prodotto compreso il modale di conferma
     $(".trigger-rimuovi").on("click", function () {
         id_da_rimuovere = $(this).data("id");
-        $("#modale-rimozione")[0].showModal();
+        const dialogo_rimozione = $("#modale-rimozione")[0];
+        if (dialogo_rimozione) dialogo_rimozione.showModal();
     });
 
     $("#conferma-rimozione-btn").on("click", function () {

@@ -35,7 +35,8 @@ $(document).ready(function () {
     // Apertura del modale immagine ingrandita
     $(document).on("click", ".foto-ingrandibile", function () {
         $("#img-ingrandita").attr("src", $(this).attr("src"));
-        $("#modale-immagine")[0].showModal();
+        const dialogo_immagine = $("#modale-immagine")[0];
+        if (dialogo_immagine) dialogo_immagine.showModal();
     });
 
     // Chiusura dei modali tramite il bottone dedicato
@@ -66,12 +67,7 @@ $(document).ready(function () {
                 if (risposta.successo) {
                     mostraMessaggioCarrello(true, "Il prodotto è stato aggiunto nel carrello!");
 
-                    // Aggiorna il badge del carrello della navbar
-                    if (risposta.dati.conteggio_carrello > 0) {
-                        $("#cart-count-badge").text(risposta.dati.conteggio_carrello).removeClass("hidden");
-                    } else {
-                        $("#cart-count-badge").addClass("hidden");
-                    }
+                    aggiornaBadgeCarrello(risposta.dati.conteggio_carrello);
                 } else {
                     mostraMessaggioCarrello(false, risposta.messaggio);
                 }
@@ -125,7 +121,8 @@ $(document).ready(function () {
     // Eliminazione di una recensione
     $(document).on("click", ".trigger-elimina-recensione", function () {
         $("#id-recensione-elimina").val($(this).data("id"));
-        $("#modale-elimina-recensione")[0].showModal();
+        const dialogo_elimina = $("#modale-elimina-recensione")[0];
+        if (dialogo_elimina) dialogo_elimina.showModal();
     });
 
     $("#form-elimina-recensione").on("submit", function (e) {
@@ -146,7 +143,7 @@ $(document).ready(function () {
                         $(this).remove();
 
                         // Aggiorna il contatore delle recensioni
-                        let numero_attuale = parseInt($("#conta-recensioni").text());
+                        let numero_attuale = parseInt($("#conta-recensioni").text(), 10);
                         $("#conta-recensioni").text(Math.max(0, numero_attuale - 1));
 
                         // Ripristina il form per aggiungere una recensione
@@ -197,9 +194,9 @@ $(document).ready(function () {
                         dati.foto.forEach(function (f) {
                             $container_foto.append(`
                                 <div style="text-align:center; border:1px solid #eee; padding:5px;">
-                                    <img src="../${f.percorso_file}" style="width:50px; height:50px; object-fit:cover; display:block; margin-bottom:5px;">
+                                    <img src="../${escapeHtml(f.percorso_file)}" style="width:50px; height:50px; object-fit:cover; display:block; margin-bottom:5px;">
                                     <label style="font-size:11px; color:red; cursor:pointer;">
-                                        <input type="checkbox" name="foto_da_eliminare[]" value="${f.id}"> Elimina
+                                        <input type="checkbox" name="foto_da_eliminare[]" value="${escapeHtml(f.id)}"> Elimina
                                     </label>
                                 </div>
                             `);
@@ -208,7 +205,8 @@ $(document).ready(function () {
                         $container_foto.html('<span style="font-size:13px; color:#999;">Nessuna foto presente.</span>');
                     }
 
-                    $("#modale-modifica-recensione")[0].showModal();
+                    const dialogo_modifica = $("#modale-modifica-recensione")[0];
+                    if (dialogo_modifica) dialogo_modifica.showModal();
                 } else {
                     mostraMessaggioRecensione(false, risposta.messaggio);
                 }

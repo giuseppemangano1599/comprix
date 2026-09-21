@@ -16,7 +16,7 @@ $(document).ready(function() {
         e.preventDefault();
         var id_ordine = $(this).data("id");
         $input_id.val(id_ordine);
-        $modale[0].showModal();
+        if ($modale[0]) $modale[0].showModal();
     });
 
     // Chiude il modale cliccando se si clicca fuori dalla finestrella

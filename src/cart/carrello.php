@@ -143,5 +143,6 @@ include "../includes/header.php";
     </div>
 </dialog>
 
+<script src="../assets/js/common.js"></script>
 <script src="../assets/js/carrello.js"></script>
 <?php include "../includes/footer.php"; ?>

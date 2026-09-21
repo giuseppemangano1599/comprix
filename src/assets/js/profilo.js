@@ -10,7 +10,7 @@ $(document).ready(function() {
     $(".delete-addr-trigger").on("click", function() {
         const id = $(this).data("id");
         $id_indirizzo_input.val(id);
-        $modale_indirizzo[0].showModal();
+        if ($modale_indirizzo[0]) $modale_indirizzo[0].showModal();
     });
 
     const $modale_pagamento = $("#delete-pay-modal");
@@ -19,7 +19,7 @@ $(document).ready(function() {
     $(".delete-pay-trigger").on("click", function() {
         const id = $(this).data("id");
         $id_pagamento_input.val(id);
-        $modale_pagamento[0].showModal();
+        if ($modale_pagamento[0]) $modale_pagamento[0].showModal();
     });
 
     // Chiude i modali
@@ -46,7 +46,7 @@ $(document).ready(function() {
         const input = $(this).val();
         
         // Se l'utente sta cancellando, non aggiungere lo slash
-        if (e.originalEvent.inputType === "deleteContentBackward") return;
+        if (e.originalEvent && e.originalEvent.inputType === "deleteContentBackward") return;
 
         // Aggiunge lo slash dopo il secondo carattere
         if (input.length === 2 && !input.includes("/")) {

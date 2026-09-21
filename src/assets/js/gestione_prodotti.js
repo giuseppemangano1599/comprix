@@ -13,7 +13,7 @@ $(document).ready(function () {
         const nome = $(this).data("name");
         $id_prodotto_modale.val(id);
         $nome_prodotto_modale.text(nome);
-        $modale[0].showModal();
+        if ($modale[0]) $modale[0].showModal();
     });
 
     // Chiude il modale cliccando su Annulla
