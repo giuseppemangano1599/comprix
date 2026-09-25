@@ -13,7 +13,7 @@ $pref = $prefisso_asset ?? "../";
     <link rel="stylesheet" href="<?= $pref ?>assets/css/style.css">
     <link rel="icon" type="image/x-icon" href="<?= $pref ?>favicon.ico">
     <meta name="csrf-token" content="<?= h(csrfToken()) ?>">
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="<?= $pref ?>assets/js/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 
 <body>

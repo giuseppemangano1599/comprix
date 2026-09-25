@@ -65,7 +65,9 @@ creato da una versione più recente non si avvia su una precedente.
   le credenziali stanno in `config.php` e `docker-compose.yml`.
 - Nessuna suite di test/lint: verificare con
   `docker compose exec web php -l <file>` e prova manuale nel browser.
-- jQuery 3.7.1 è caricato da CDN: serve connettività per le parti AJAX.
+- jQuery 3.7.1 è servito in locale (`src/assets/js/jquery-3.7.1.js`,
+  hash verificato contro l'SRI): nessun accesso a CDN, il sito funziona
+  anche senza connettività esterna.
 
 ## Sviluppo futuro
 Il progetto non è da considerarsi definitivo e sarà via via aggiornato nel tempo per migliorarne le funzionalità, la sicurezza e la struttura del codice.
