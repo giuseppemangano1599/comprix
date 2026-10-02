@@ -16,13 +16,19 @@ $(document).ready(function () {
     // Variabile che imposta un lieve ritardo tra la pressione di un tasto e la chiamata AJAX
     let timeout_ricerca;
 
+    // Ultima richiesta in corso: una nuova ricerca annulla la precedente,
+    // così risposte arrivate fuori ordine non sovrascrivono i risultati attuali
+    let richiesta_corrente = null;
+
     // Effettua la chiamata AJAX per caricare i prodotti
     function caricaProdotti(pagina = 1) {
         // Recupera valori attuali
         const testo = $input_cerca.val().trim();
         const cat = $select_categoria.val();
 
-        $.ajax({
+        if (richiesta_corrente) richiesta_corrente.abort();
+
+        const richiesta = $.ajax({
             url: "../ajax/ajax_ricerca_prodotti.php",
             type: "GET",
             dataType: "json",
@@ -42,10 +48,17 @@ $(document).ready(function () {
                 renderizzaGriglia(risposta.prodotti);
                 renderizzaPaginazione(risposta.paginazione);
             },
-            error: function () {
+            error: function (_, stato) {
+                // L'annullamento volontario non è un errore: la risposta superata va ignorata
+                if (stato === "abort") return;
                 mostraErrore("Si è verificato un errore di comunicazione con il server. Riprova più tardi.");
+            },
+            complete: function () {
+                if (richiesta_corrente === richiesta) richiesta_corrente = null;
             }
         });
+
+        richiesta_corrente = richiesta;
     }
 
     function renderizzaGriglia(prodotti) {

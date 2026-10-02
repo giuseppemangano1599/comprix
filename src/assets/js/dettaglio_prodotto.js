@@ -44,6 +44,13 @@ $(document).ready(function () {
         $(this).closest("dialog")[0].close();
     });
 
+    // Chiude il modale cliccando sullo sfondo
+    $("dialog").on("click", function (e) {
+        if (e.target === this) {
+            this.close();
+        }
+    });
+
 
     // Aggiunta dei prodotti nel carrello
     $("#btn-aggiungi-carrello").on("click", function () {
@@ -100,10 +107,15 @@ $(document).ready(function () {
             dataType: "json",
             success: function (risposta) {
                 if (risposta.successo) {
-                    // Nasconde il form, mostra il messaggio di successo e aggiunge la recensione
+                    // Nasconde il form e ricarica la lista: il messaggio arriva a ricarica riuscita
                     $("#box-aggiungi-recensione").slideUp();
-                    $("#contenitore-recensioni").load(location.href + " #contenitore-recensioni > *");
-                    mostraMessaggioRecensione(true, "Grazie! La tua recensione è stata pubblicata.");
+                    $("#contenitore-recensioni").load(location.href + " #contenitore-recensioni > *", function (_, stato) {
+                        if (stato === "error") {
+                            mostraMessaggioRecensione(false, "Recensione salvata, ma la lista non si è aggiornata. Ricarica la pagina.");
+                        } else {
+                            mostraMessaggioRecensione(true, "Grazie! La tua recensione è stata pubblicata.");
+                        }
+                    });
                 } else {
                     mostraMessaggioRecensione(false, risposta.messaggio);
                 }
@@ -233,8 +245,13 @@ $(document).ready(function () {
                 $("#modale-modifica-recensione")[0].close();
 
                 if (risposta.successo) {
-                    $("#contenitore-recensioni").load(location.href + " #contenitore-recensioni > *");
-                    mostraMessaggioRecensione(true, "La recensione è stata modificata con successo!");
+                    $("#contenitore-recensioni").load(location.href + " #contenitore-recensioni > *", function (_, stato) {
+                        if (stato === "error") {
+                            mostraMessaggioRecensione(false, "Modifica salvata, ma la lista non si è aggiornata. Ricarica la pagina.");
+                        } else {
+                            mostraMessaggioRecensione(true, "La recensione è stata modificata con successo!");
+                        }
+                    });
                 } else {
                     mostraMessaggioRecensione(false, risposta.messaggio);
                 }

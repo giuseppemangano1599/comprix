@@ -16,8 +16,14 @@ $(document).ready(function () {
             .fadeOut();
     }
 
+    // Una sola operazione alla volta: i click rapidi durante una richiesta vengono ignorati
+    let richiesta_in_corso = false;
+
     // Aggiorna una riga del carrello (o la rimuove se la quantità è 0)
     function aggiornaRigaCarrello(id_prodotto, nuova_quantita, $riga) {
+        if (richiesta_in_corso) return;
+        richiesta_in_corso = true;
+
         // Se stiamo per rimuovere (quantita 0), usiamo l'azione "rimuovi" per pulizia,
         // altrimenti "aggiorna" per cambiare la quantità.
         const azione = (nuova_quantita <= 0) ? "rimuovi" : "aggiorna";
@@ -62,6 +68,9 @@ $(document).ready(function () {
             },
             error: function () {
                 mostraMessaggio(false, "Si è verificato un errore di comunicazione con il server. Riprova più tardi.");
+            },
+            complete: function () {
+                richiesta_in_corso = false;
             }
         });
     }
@@ -110,6 +119,14 @@ $(document).ready(function () {
     $(".chiudi-modale").on("click", function () {
         $(this).closest("dialog")[0].close();
         id_da_rimuovere = 0; 
+    });
+
+    // Chiude il modale cliccando sullo sfondo
+    $("dialog").on("click", function (e) {
+        if (e.target === this) {
+            this.close();
+            id_da_rimuovere = 0;
+        }
     });
 
 });

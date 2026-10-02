@@ -17,7 +17,7 @@ $(document).ready(function () {
     });
 
     // Chiude il modale cliccando su Annulla
-    $(".close-modal").on("click", function () {
+    $(".chiudi-modale").on("click", function () {
         $modale[0].close();
     });
 

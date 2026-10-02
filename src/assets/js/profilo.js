@@ -23,7 +23,7 @@ $(document).ready(function() {
     });
 
     // Chiude i modali
-    $(".close-modal").on("click", function() {
+    $(".chiudi-modale").on("click", function() {
         $(this).closest("dialog")[0].close();
     });
 

@@ -310,7 +310,7 @@ include "../includes/header.php";
             <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
             <input type="hidden" name="id_indirizzo" id="modal-addr-id">
             <div class="form-actions" style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
-                <button type="button" class="btn-secondary close-modal">Annulla</button>
+                <button type="button" class="btn-secondary chiudi-modale">Annulla</button>
                 <button type="submit" class="btn-primary" style="background-color: #d32f2f; border-color: #d32f2f;">Elimina</button>
             </div>
         </form>
@@ -326,7 +326,7 @@ include "../includes/header.php";
             <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
             <input type="hidden" name="id_pag" id="modal-pay-id">
             <div class="form-actions" style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
-                <button type="button" class="btn-secondary close-modal">Annulla</button>
+                <button type="button" class="btn-secondary chiudi-modale">Annulla</button>
                 <button type="submit" class="btn-primary" style="background-color: #d32f2f; border-color: #d32f2f;">Elimina</button>
             </div>
         </form>
