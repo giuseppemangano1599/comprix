@@ -191,13 +191,13 @@ include "../includes/header.php";
             <?php if (verificaCliente()): ?>
 
                 <section style="margin-bottom: 40px;">
-                    <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-                        <h2 style="margin: 0; font-size: 20px;">I tuoi indirizzi di spedizione</h2>
-                        <a href="aggiungi_indirizzo.php" class="btn-primary" style="width: auto;">Aggiungi un indirizzo</a>
+                    <header class="section-header">
+                        <h2>I tuoi indirizzi di spedizione</h2>
+                        <a href="aggiungi_indirizzo.php" class="btn-primary btn-auto">Aggiungi un indirizzo</a>
                     </header>
 
                     <?php if (empty($indirizzi)): ?>
-                        <p style="font-style: italic; color: #666;">Non hai ancora salvato nessun indirizzo.</p>
+                        <p class="empty-note">Non hai ancora salvato nessun indirizzo.</p>
                     <?php else: ?>
                         <div class="table-container">
                             <table>
@@ -224,9 +224,8 @@ include "../includes/header.php";
                                                 <div class="table-actions">
                                                     <a href="modifica_indirizzo.php?id=<?= $indirizzo["id"] ?>" class="btn-primary btn-sm">Modifica</a>
                                                     <button type="button"
-                                                        class="btn-secondary btn-sm delete-addr-trigger"
-                                                        data-id="<?= $indirizzo["id"] ?>"
-                                                        style="background-color: #ffe6e6; color: #d32f2f; border-color: #ffcccc;">
+                                                        class="btn-secondary btn-sm btn-remove delete-addr-trigger"
+                                                        data-id="<?= $indirizzo["id"] ?>">
                                                         Elimina
                                                     </button>
                                                 </div>
@@ -240,13 +239,13 @@ include "../includes/header.php";
                 </section>
 
                 <section>
-                    <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-                        <h2 style="margin: 0; font-size: 20px;">I tuoi metodi di pagamento</h2>
-                        <a href="aggiungi_pagamento.php" class="btn-primary" style="width: auto;">Aggiungi un metodo</a>
+                    <header class="section-header">
+                        <h2>I tuoi metodi di pagamento</h2>
+                        <a href="aggiungi_pagamento.php" class="btn-primary btn-auto">Aggiungi un metodo</a>
                     </header>
 
                     <?php if (empty($pagamenti)): ?>
-                        <p style="font-style: italic; color: #666;">Non hai ancora salvato nessun metodo di pagamento.</p>
+                        <p class="empty-note">Non hai ancora salvato nessun metodo di pagamento.</p>
                     <?php else: ?>
                         <div class="table-container">
                             <table>
@@ -280,9 +279,8 @@ include "../includes/header.php";
                                                 <div class="table-actions">
                                                     <a href="modifica_pagamento.php?id=<?= $pagamento["id"] ?>" class="btn-primary btn-sm">Modifica</a>
                                                     <button type="button"
-                                                        class="btn-secondary btn-sm delete-pay-trigger"
-                                                        data-id="<?= $pagamento["id"] ?>"
-                                                        style="background-color: #ffe6e6; color: #d32f2f; border-color: #ffcccc;">
+                                                        class="btn-secondary btn-sm btn-remove delete-pay-trigger"
+                                                        data-id="<?= $pagamento["id"] ?>">
                                                         Elimina
                                                     </button>
                                                 </div>
@@ -309,9 +307,9 @@ include "../includes/header.php";
             <input type="hidden" name="azione" value="elimina">
             <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
             <input type="hidden" name="id_indirizzo" id="modal-addr-id">
-            <div class="form-actions" style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+            <div class="form-actions form-actions-end">
                 <button type="button" class="btn-secondary chiudi-modale">Annulla</button>
-                <button type="submit" class="btn-primary" style="background-color: #d32f2f; border-color: #d32f2f;">Elimina</button>
+                <button type="submit" class="btn-primary btn-danger">Elimina</button>
             </div>
         </form>
     </div>
@@ -325,9 +323,9 @@ include "../includes/header.php";
             <input type="hidden" name="azione" value="elimina">
             <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
             <input type="hidden" name="id_pag" id="modal-pay-id">
-            <div class="form-actions" style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+            <div class="form-actions form-actions-end">
                 <button type="button" class="btn-secondary chiudi-modale">Annulla</button>
-                <button type="submit" class="btn-primary" style="background-color: #d32f2f; border-color: #d32f2f;">Elimina</button>
+                <button type="submit" class="btn-primary btn-danger">Elimina</button>
             </div>
         </form>
     </div>

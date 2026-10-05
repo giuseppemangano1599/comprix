@@ -65,7 +65,7 @@ include "../includes/header.php";
                     <?php if (count($indirizzi) > 0): ?>
                         <div class="form-group">
                             <label for="select_indirizzi">Scegli un indirizzo salvato:</label>
-                            <select name="id_indirizzo_salvato" id="select_indirizzi" required class="form-control" style="width: 100%; padding: 10px; margin-top: 5px;">
+                            <select name="id_indirizzo_salvato" id="select_indirizzi" required class="form-control checkout-select">
                                 <option value="">Seleziona un indirizzo di spedizione</option>
                                 <?php foreach ($indirizzi as $indirizzo): ?>
                                     <option value="<?= $indirizzo["id"] ?>">
@@ -75,10 +75,10 @@ include "../includes/header.php";
                             </select>
                         </div>
                     <?php else: ?>
-                        <div style="background-color: #fff3cd; color: #856404; padding: 15px; border: 1px solid #ffeeba; border-radius: 5px;">
+                        <div class="warning-box">
                             <strong>Attenzione:</strong> Non hai indirizzi di spedizione salvati.
                             <br>
-                            <a href="../account/profilo.php" style="text-decoration: underline; font-weight: bold;">Vai al tuo profilo per aggiungerne uno</a> prima di continuare.
+                            <a href="../account/profilo.php" class="link-underline">Vai al tuo profilo per aggiungerne uno</a> prima di continuare.
                         </div>
                     <?php endif; ?>
                 </div>
@@ -100,7 +100,7 @@ include "../includes/header.php";
                             ];
                             ?>
 
-                            <select name="id_pagamento_salvato" id="select_pagamenti" required class="form-control" style="width: 100%; padding: 10px; margin-top: 5px;">
+                            <select name="id_pagamento_salvato" id="select_pagamenti" required class="form-control checkout-select">
                                 <option value="">Seleziona un metodo di pagamento</option>
                                 <?php foreach ($pagamenti as $pagamento): ?>
                                     <?php 
@@ -114,10 +114,10 @@ include "../includes/header.php";
                             </select>
                         </div>
                     <?php else: ?>
-                        <div style="background-color: #fff3cd; color: #856404; padding: 15px; border: 1px solid #ffeeba; border-radius: 5px;">
+                        <div class="warning-box">
                             <strong>Attenzione:</strong> Non hai metodi di pagamento salvati.
                             <br>
-                            <a href="../account/profilo.php" style="text-decoration: underline; font-weight: bold;">Vai al tuo profilo per aggiungerne uno</a> prima di continuare.
+                            <a href="../account/profilo.php" class="link-underline">Vai al tuo profilo per aggiungerne uno</a> prima di continuare.
                         </div>
                     <?php endif; ?>
                 </div>

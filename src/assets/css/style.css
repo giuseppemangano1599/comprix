@@ -50,6 +50,15 @@ img {
   display: none;
 }
 
+.font-bold {
+  font-weight: bold;
+}
+
+.link-underline {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
 /* ===== Bottoni e badge ===== */
 /* I bottoni sono a larghezza piena di default; le eccezioni usano width:auto in loco. */
 .btn-primary,
@@ -74,6 +83,24 @@ img {
 .btn-sm {
   padding: 2px 5px;
   font-size: 12px;
+  width: auto;
+}
+
+/* Variante rossa per azioni distruttive (stessa specificità di .btn-primary: resta dopo). */
+.btn-danger {
+  background-color: #d32f2f;
+  border-color: #d32f2f;
+}
+
+/* Variante rossa chiara per i bottoni "Elimina" secondari. */
+.btn-remove {
+  background-color: #ffe6e6;
+  color: #d32f2f;
+  border-color: #ffcccc;
+}
+
+/* Annulla la larghezza piena dei bottoni dove serve. */
+.btn-auto {
   width: auto;
 }
 
@@ -214,6 +241,21 @@ footer {
 
 .form-col {
   flex: 1;
+}
+
+/* Righe di azioni nei form e nei dialog (si compongono con la variante). */
+.form-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.form-actions-end {
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.form-actions-form {
+  margin-top: 30px;
 }
 
 fieldset {
@@ -681,6 +723,35 @@ th {
   border-bottom-color: #ffcccc;
 }
 
+/* Intestazioni delle sezioni "indirizzi" e "pagamenti". */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+/* Nota esplicativa e testo segnaposto per liste vuote. */
+.note-box {
+  color: #666;
+  font-style: italic;
+  background: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.empty-note {
+  font-style: italic;
+  color: #666;
+}
+
 .payment-fields {
   display: none;
   background: #f0f0f0;
@@ -769,6 +840,21 @@ th {
   border-top: 1px dashed #000;
   padding-top: 15px;
   margin-top: 15px;
+}
+
+/* Select e avvisi della pagina checkout. */
+.checkout-select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+}
+
+.warning-box {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 15px;
+  border: 1px solid #ffeeba;
+  border-radius: 5px;
 }
 
 /* ===== Dialog ===== */

@@ -121,7 +121,7 @@ include "../includes/header.php";
                     multiple accept="image/*">
             </div>
 
-            <div class="form-actions" style="margin-top: 30px; display: flex; gap: 10px;">
+            <div class="form-actions form-actions-form">
                 <button type="submit" class="btn-primary" style="font-weight: bold; background-color:#5bcd9a;">Aggiungi</button>
                 <a href="gestione_prodotti.php" class="btn-secondary" style="font-weight: bold; background-color:#ff8099;">Annulla</a>
             </div>

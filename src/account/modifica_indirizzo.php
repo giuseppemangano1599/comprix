@@ -162,9 +162,9 @@ include "../includes/header.php";
                 required>
         </div>
 
-        <div class="form-actions" style="margin-top: 30px; display: flex; gap: 10px;">
-            <button type="submit" class="btn-primary" style="font-weight: bold;">Salva le modifiche</button>
-            <a href="profilo.php" class="btn-secondary" style="font-weight: bold;">Torna al profilo</a>
+        <div class="form-actions form-actions-form">
+            <button type="submit" class="btn-primary font-bold">Salva le modifiche</button>
+            <a href="profilo.php" class="btn-secondary font-bold">Torna al profilo</a>
         </div>
     </form>
 </div>

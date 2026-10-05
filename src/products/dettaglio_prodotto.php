@@ -94,7 +94,7 @@ include "../includes/header.php";
             <img src="../<?= h($foto_prodotto[0]) ?>" id="main-image" class="main-image" alt="Foto principale">
             <div class="thumbnails">
                 <?php foreach ($foto_prodotto as $src): ?>
-                    <img src="../<?= h($src) ?>" class="thumbnail" alt="Miniatura" style="cursor:pointer;">
+                    <img src="../<?= h($src) ?>" class="thumbnail" alt="Miniatura">
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
@@ -127,7 +127,7 @@ include "../includes/header.php";
                 <?php endif; ?>
 
             <?php else: ?>
-                <p class="text-danger" style="font-weight: bold;">Prodotto esaurito!</p>
+                <p class="text-danger font-bold">Prodotto esaurito!</p>
             <?php endif; ?>
         </div>
 
@@ -245,7 +245,7 @@ include "../includes/header.php";
             <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
             <input type="hidden" name="id_recensione" id="id-recensione-elimina">
             
-            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+            <div class="form-actions form-actions-end">
                 <button type="button" class="btn-secondary chiudi-modale">Annulla</button>
                 <button type="submit" class="btn-primary" style="background:#dc3545; color:white; border-color:#dc3545;">Elimina</button>
             </div>
@@ -288,7 +288,7 @@ include "../includes/header.php";
                 <input type="file" name="foto[]" id="mod-foto" class="form-control" multiple accept="image/*">
             </div>
 
-            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+            <div class="form-actions form-actions-end">
                 <button type="button" class="btn-secondary chiudi-modale">Annulla</button>
                 <button type="submit" class="btn-primary">Salva le modifiche</button>
             </div>

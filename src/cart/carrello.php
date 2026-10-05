@@ -136,7 +136,7 @@ include "../includes/header.php";
     <div class="modal-content">
         <h3>Rimuovi il prodotto</h3>
         <p>Sei sicuro di voler rimuovere questo articolo dal carrello?</p>
-        <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+        <div class="form-actions form-actions-end">
             <button type="button" class="btn-secondary chiudi-modale">Annulla</button>
             <button type="button" id="conferma-rimozione-btn" class="btn-primary" style="background:#dc3545; border-color:#dc3545;">Rimuovi</button>
         </div>

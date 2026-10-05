@@ -33,7 +33,7 @@ include "../includes/header.php";
 <section>
     <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
         <h1>I tuoi prodotti</h1>
-        <a href="aggiungi_prodotto.php" class="btn-primary"style="width:auto;">Aggiungi un prodotto</a>
+        <a href="aggiungi_prodotto.php" class="btn-primary btn-auto">Aggiungi un prodotto</a>
     </header>
 
     <?php if ($successo): ?>
@@ -81,10 +81,9 @@ include "../includes/header.php";
                                     <a href="../products/dettaglio_prodotto.php?id=<?= $prodotto["id"] ?>" class="btn-secondary btn-sm">Vedi</a>
                                     <a href="modifica_prodotto.php?id=<?= $prodotto["id"] ?>" class="btn-primary btn-sm">Modifica</a>
                                     <button type="button"
-                                        class="btn-secondary btn-sm delete-trigger"
+                                        class="btn-secondary btn-sm btn-remove delete-trigger"
                                         data-id="<?= $prodotto["id"] ?>"
-                                        data-name="<?= h($prodotto["nome"]) ?>"
-                                        style="background-color: #ffe6e6; color: #d32f2f; border-color: #ffcccc;">
+                                        data-name="<?= h($prodotto["nome"]) ?>">
                                         Elimina
                                     </button>
                                 </div>
@@ -111,9 +110,9 @@ include "../includes/header.php";
             <input type="hidden" name="delete_product_id" id="modal-product-id">
             <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
 
-            <div class="form-actions" style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+            <div class="form-actions form-actions-end">
                 <button type="button" class="btn-secondary chiudi-modale">Annulla</button>
-                <button type="submit" class="btn-primary" style="background-color: #d32f2f; border-color: #d32f2f;">Elimina definitivamente</button>
+                <button type="submit" class="btn-primary btn-danger">Elimina definitivamente</button>
             </div>
         </form>
     </div>

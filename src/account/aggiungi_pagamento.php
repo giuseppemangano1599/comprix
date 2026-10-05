@@ -103,7 +103,7 @@ include "../includes/header.php";
         </div>
 
         <!-- SEZIONE PAYPAL -->
-        <div id="box_paypal" class="payment-fields" style="display:none;">
+        <div id="box_paypal" class="payment-fields">
             <div class="form-group">
                 <label for="email_paypal">E-mail PayPal</label>
                 <input type="email"
@@ -114,7 +114,7 @@ include "../includes/header.php";
             </div>
         </div>
 
-        <div id="box_bonifico" class="payment-fields" style="display:none;">
+        <div id="box_bonifico" class="payment-fields">
             <div class="form-group">
                 <label for="intestatario">Intestatario del conto</label>
                 <input type="text"
@@ -136,15 +136,15 @@ include "../includes/header.php";
             </div>
         </div>
 
-        <div id="box_contrassegno" class="payment-fields" style="display:none;">
-            <p style="color: #666; font-style: italic; background: #fff; padding: 10px; border: 1px solid #ccc;">
+        <div id="box_contrassegno" class="payment-fields">
+            <p class="note-box">
                 Pagherai in contanti direttamente al corriere al momento della consegna.
             </p>
         </div>
 
-        <div class="form-actions" style="margin-top: 30px; display: flex; gap: 10px;">
-            <button type="submit" class="btn-primary" style="font-weight: bold;">Salva il metodo</button>
-            <a href="profilo.php" class="btn-secondary" style="font-weight: bold;">Annulla</a>
+        <div class="form-actions form-actions-form">
+            <button type="submit" class="btn-primary font-bold">Salva il metodo</button>
+            <a href="profilo.php" class="btn-secondary font-bold">Annulla</a>
         </div>
     </form>
 </div>

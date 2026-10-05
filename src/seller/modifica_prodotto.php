@@ -159,7 +159,7 @@ include "../includes/header.php";
             </div>
         </div>
 
-        <div class="form-actions" style="margin-top: 30px; display: flex; gap: 10px;">
+        <div class="form-actions form-actions-form">
             <button type="submit" class="btn-primary" style="font-weight: bold; background-color:#5bcd9a;">Salva le modifiche</button>
             <a href="gestione_prodotti.php" class="btn-secondary" style="font-weight: bold; background-color:#ff8099;">Torna ai tuoi prodotti</a>
         </div>
@@ -177,9 +177,9 @@ include "../includes/header.php";
             <input type="hidden" name="id_prodotto" value="<?= $id_prodotto ?>">
             <input type="hidden" name="id_foto" id="modal-photo-id">
 
-            <div class="form-actions" style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+            <div class="form-actions form-actions-end">
                 <button type="button" class="btn-secondary chiudi-modale">Annulla</button>
-                <button type="submit" class="btn-primary" style="background-color: #d32f2f; border-color: #d32f2f;">Elimina</button>
+                <button type="submit" class="btn-primary btn-danger">Elimina</button>
             </div>
         </form>
     </div>

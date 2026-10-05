@@ -182,14 +182,14 @@ include "../includes/header.php";
         </div>
 
         <div id="box_contrassegno" class="payment-fields">
-            <p style="color: #666; font-style: italic; background: #fff; padding: 10px; border: 1px solid #ccc;">
+            <p class="note-box">
                 Effettuerai il pagamento in contanti alla consegna. Nessun dato aggiuntivo è richiesto.
             </p>
         </div>
 
-        <div class="form-actions" style="margin-top: 30px; display: flex; gap: 10px;">
-            <button type="submit" class="btn-primary" style="font-weight: bold;">Salva le modifiche</button>
-            <a href="profilo.php" class="btn-secondary" style="font-weight: bold;">Torna al profilo</a>
+        <div class="form-actions form-actions-form">
+            <button type="submit" class="btn-primary font-bold">Salva le modifiche</button>
+            <a href="profilo.php" class="btn-secondary font-bold">Torna al profilo</a>
         </div>
     </form>
 </div>

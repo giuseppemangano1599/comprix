@@ -145,8 +145,8 @@ include "../includes/header.php";
         <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
         <input type="hidden" name="id_ordine" id="input_id_ordine_annulla">
 
-        <div class="form-group" style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
-            <button type="button" class="btn-secondary chiudi-modale" style="width: auto;">Indietro</button>
+        <div class="form-group form-actions-end">
+            <button type="button" class="btn-secondary btn-auto chiudi-modale">Indietro</button>
             <button type="submit" class="btn-primary" style="width: auto; background-color: #dc3545; border-color: #dc3545; color: white;">Conferma</button>
         </div>
     </form>
