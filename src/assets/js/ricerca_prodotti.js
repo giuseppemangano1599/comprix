@@ -39,7 +39,7 @@ $(document).ready(function () {
             },
             success: function (risposta) {
 
-                if (!risposta.success) {
+                if (!risposta.successo) {
                     mostraErrore("Si è verificato un errore nel caricamento dei prodotti.");
                     return;
                 }

@@ -13,7 +13,7 @@ header("Content-Type: application/json");
 
 // Risposta di default
 $risposta = [
-    "success" => false,
+    "successo" => false,
     "message" => "La richiesta non è valida."
 ];
 
@@ -38,7 +38,7 @@ if (empty($username_o_email) || empty($tipo_utente)) {
         if ($utente && !empty($utente["domanda_segreta"])) {
             // Se l'utente esiste
             $risposta = [
-                "success" => true,
+                "successo" => true,
                 "domanda" => $utente["domanda_segreta"]
             ];
         } else {

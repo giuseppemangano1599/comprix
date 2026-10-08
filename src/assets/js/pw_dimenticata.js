@@ -42,7 +42,7 @@ $(document).ready(function () {
                 username_or_email: cred_utente
             },
             success: function (resp) {
-                if (resp.success) {
+                if (resp.successo) {
                     // Mostra il secondo step
                     $("#testo-domanda").text(resp.domanda);
                     

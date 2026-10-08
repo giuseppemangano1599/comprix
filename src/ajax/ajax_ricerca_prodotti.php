@@ -74,7 +74,7 @@ try {
     $lista_prodotti = $stmt->fetchAll();
 
     echo json_encode([
-        "success" => true,
+        "successo" => true,
         "prodotti" => $lista_prodotti,
         "paginazione" => [
             "totale_prodotti" => $totale_prodotti,
@@ -85,7 +85,7 @@ try {
 
 } catch (PDOException $e) {
     echo json_encode([
-        "success" => false,
+        "successo" => false,
         "message" => "Si è verificato un errore nel caricamento dei prodotti."
     ]);
 }

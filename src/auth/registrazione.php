@@ -6,7 +6,7 @@ require_once "../includes/config.php";
 if (verificaNegoziante()) {
     header("Location: ../seller/pannello_negoziante.php");
     exit;
-} elseif (verificaNegoziante()) {
+} elseif (verificaCliente()) {
     header("Location: ../index.php");
     exit;
 }

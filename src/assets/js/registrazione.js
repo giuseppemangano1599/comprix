@@ -36,6 +36,11 @@ $(document).ready(function () {
                     valore: valore
                 },
                 success: function (risposta) {
+                    if (!risposta.successo) {
+                        $feedback.text("Si è verificato un errore di comunicazione con il server. Riprova più tardi.").css("color", "red");
+                        return;
+                    }
+
                     if (risposta.disponibile) {
                         $input[0].setCustomValidity("");
                         $feedback.text(risposta.messaggio).css("color", "green");

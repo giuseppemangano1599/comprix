@@ -35,6 +35,7 @@ function verificaDisponibilita($pdo, $campo, $valore) {
 
 // Risposta di default
 $risposta = [
+    "successo" => true,
     "disponibile" => false,
     "messaggio" => "Richiesta non valida."
 ];
@@ -63,12 +64,14 @@ if (empty($campo) || !in_array($campo, $campi_ammessi, true)) {
         if (verificaDisponibilita($pdo, $campo, $valore)) {
             // Se il valore è disponibile
             $risposta = [
+                "successo" => true,
                 "disponibile" => true,
                 "messaggio"   => ucfirst($campo) . " disponibile."
             ];
         } else {
             // Se il valore è non è disponibile
             $risposta = [
+                "successo" => true,
                 "disponibile" => false,
                 "messaggio"   => ucfirst($campo) . " già in uso."
             ];
