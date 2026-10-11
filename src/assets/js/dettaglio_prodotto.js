@@ -214,7 +214,7 @@ $(document).ready(function () {
                             `);
                         });
                     } else {
-                        $container_foto.html('<span style="font-size:13px; color:#999;">Nessuna foto presente.</span>');
+                        $container_foto.html('<span style="font-size:13px; color:#666;">Nessuna foto presente.</span>');
                     }
 
                     const dialogo_modifica = $("#modale-modifica-recensione")[0];

@@ -119,7 +119,7 @@ include "../includes/header.php";
                         <input type="number" id="quantita_da_aggiungere" value="1" min="1" max="<?= $prodotto["quantita_disponibile"] ?>" class="form-control" style="width: 70px;">
                         <button type="button" class="btn-primary" id="btn-aggiungi-carrello" data-id="<?= $id_prodotto ?>">Aggiungi al carrello</button>
                     </div>
-                    <div id="feedback-carrello" style="margin-top:10px; font-weight:bold; display:none;"></div>
+                    <div id="feedback-carrello" role="status" style="margin-top:10px; font-weight:bold; display:none;"></div>
                 <?php elseif (verificaNegoziante()): ?>
                     <p><em>Al momento gli account "negoziante" non possono acquistare prodotti. Iscriviti come cliente!</em></p>
                 <?php else: ?>
@@ -150,7 +150,7 @@ include "../includes/header.php";
                 <div class="review-card" id="card-recensione-<?= $recensione["id"] ?>">
                     <div class="review-header">
                         <strong><?= h($recensione["username"]) ?></strong>
-                        <span class="stars">
+                        <span class="stars" role="img" aria-label="Valutazione <?= $recensione["valutazione"] ?> su 5">
                             <?php 
                             for ($indice= 1; $indice<= 5; $indice++) {
                                 echo ($indice<= $recensione["valutazione"]) ? "★" : "☆";
@@ -229,16 +229,16 @@ include "../includes/header.php";
             <?php endif; ?>
         </div>
         
-        <div id="msg-recensione" class="alert alert-success" style="display:none;">
+        <div id="msg-recensione" class="alert alert-success" role="status" style="display:none;">
             Grazie! La tua recensione è stata pubblicata.
         </div>
 
     </div>
 </section>
 
-<dialog id="modale-elimina-recensione" class="modal">
+<dialog id="modale-elimina-recensione" class="modal" aria-labelledby="titolo-elimina-recensione">
     <div class="modal-content">
-        <h3>Conferma eliminazione recensione</h3>
+        <h3 id="titolo-elimina-recensione">Conferma eliminazione recensione</h3>
         <p>Sei sicuro di voler eliminare questa recensione?</p>
         <form id="form-elimina-recensione">
             <input type="hidden" name="azione" value="elimina">
@@ -253,9 +253,9 @@ include "../includes/header.php";
     </div>
 </dialog>
 
-<dialog id="modale-modifica-recensione" class="modal" style="max-width: 500px; width:90%;">
+<dialog id="modale-modifica-recensione" class="modal" aria-labelledby="titolo-modifica-recensione" style="max-width: 500px; width:90%;">
     <div class="modal-content">
-        <h3>Modifica la recensione</h3>
+        <h3 id="titolo-modifica-recensione">Modifica la recensione</h3>
         <form id="form-modifica-recensione" enctype="multipart/form-data">
             <input type="hidden" name="azione" value="modifica">
             <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
@@ -296,7 +296,7 @@ include "../includes/header.php";
     </div>
 </dialog>
 
-<dialog id="modale-immagine" style="padding: 0; border: 1px solid #000; max-width: 90%; max-height: 90%;">
+<dialog id="modale-immagine" aria-label="Anteprima immagine" style="padding: 0; border: 1px solid #000; max-width: 90%; max-height: 90%;">
     <img src="" id="img-ingrandita" 
          style="max-width: 100%; max-height: 80vh; display: block;" 
          alt="Ingrandimento">

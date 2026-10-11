@@ -100,9 +100,9 @@ include "../includes/header.php";
     <?php endif; ?>
 </section>
 
-<dialog id="delete-modal" class="modal">
+<dialog id="delete-modal" class="modal" aria-labelledby="titolo-elimina-prodotto">
     <div class="modal-content">
-        <h3>Elimina il prodotto</h3>
+        <h3 id="titolo-elimina-prodotto">Elimina il prodotto</h3>
         <p>Sei sicuro di voler eliminare "<strong id="modal-product-name"></strong>"?</p>
         <p class="text-danger" style="font-size: 0.9em;">Questa azione non può essere annullata.</p>
 

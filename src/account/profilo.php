@@ -41,7 +41,7 @@ $nome_pagina = "Gestione del profilo";
 include "../includes/header.php";
 ?>
 
-<div class="container">
+<div>
     <div style="border-bottom: 2px solid #000; margin-bottom: 20px;">
         <h1>Il tuo profilo</h1>
         <p>Bentornato, <strong><?= h($dati_utente["username"]) ?></strong></p>
@@ -107,6 +107,7 @@ include "../includes/header.php";
                                 maxlength="64"
                                 pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,64}"
                                 placeholder="Password attuale"
+                                aria-label="Password attuale"
                                 required>
 
                             <input type="password"
@@ -117,6 +118,7 @@ include "../includes/header.php";
                                 maxlength="64"
                                 pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,64}"
                                 placeholder="Nuova password"
+                                aria-label="Nuova password"
                                 required>
 
                             <input type="password"
@@ -127,6 +129,7 @@ include "../includes/header.php";
                                 maxlength="64"
                                 pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,64}"
                                 placeholder="Conferma nuova password"
+                                aria-label="Conferma nuova password"
                                 required>
                         </div>
                         <button type="submit" class="btn-secondary btn-sm">Cambia password</button>
@@ -143,7 +146,7 @@ include "../includes/header.php";
                         <input type="hidden" name="csrf_token" value="<?= h(csrfToken()) ?>">
 
                         <div class="form-group">
-                            <select name="domanda_segreta" class="form-control" required>
+                            <select name="domanda_segreta" class="form-control" aria-label="Domanda segreta" required>
                                 <option value="">Scegli una domanda...</option>
                                 <?php foreach (DOMANDE_SEGRETE as $domanda): ?>
                                     <option value="<?= h($domanda) ?>"><?= h($domanda) ?></option>
@@ -156,12 +159,14 @@ include "../includes/header.php";
                                 minlength="2"
                                 maxlenght="100"
                                 placeholder="La tua risposta segreta"
+                                aria-label="Risposta segreta"
                                 required>
                             <input type="password"
                                 id="verify-password"
                                 name="verify_password"
                                 class="form-control"
                                 placeholder="Password per confermare"
+                                aria-label="Password per confermare"
                                 required>
                         </div>
                         <button type="submit" class="btn-secondary btn-sm">Cambia domanda</button>
@@ -180,6 +185,7 @@ include "../includes/header.php";
                         name="delete_account_password"
                         class="form-control"
                         placeholder="Password per confermare"
+                        aria-label="Password per confermare l'eliminazione"
                         required>
                     <button type="submit" class="btn-secondary btn-sm text-danger">Conferma l'eliminazione</button>
                 </form>
@@ -299,9 +305,9 @@ include "../includes/header.php";
     </div>
 </div>
 
-<dialog id="delete-addr-modal" class="modal">
+<dialog id="delete-addr-modal" class="modal" aria-labelledby="titolo-elimina-indirizzo">
     <div class="modal-content">
-        <h3>Eliminazione indirizzo di spedizione</h3>
+        <h3 id="titolo-elimina-indirizzo">Eliminazione indirizzo di spedizione</h3>
         <p>Sei sicuro di voler eliminare questo indirizzo?</p>
         <form method="POST" action="../controllers/controller_indirizzi.php">
             <input type="hidden" name="azione" value="elimina">
@@ -315,9 +321,9 @@ include "../includes/header.php";
     </div>
 </dialog>
 
-<dialog id="delete-pay-modal" class="modal">
+<dialog id="delete-pay-modal" class="modal" aria-labelledby="titolo-elimina-pagamento">
     <div class="modal-content">
-        <h3>Eliminazione metodo di pagamento</h3>
+        <h3 id="titolo-elimina-pagamento">Eliminazione metodo di pagamento</h3>
         <p>Sei sicuro di voler eliminare questo metodo?</p>
         <form method="POST" action="../controllers/controller_pagamenti.php">
             <input type="hidden" name="azione" value="elimina">

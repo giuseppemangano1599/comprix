@@ -139,7 +139,8 @@ include "../includes/header.php";
                             <button type="button"
                                 class="delete-photo-trigger"
                                 data-id="<?= $foto["id"] ?>"
-                                style="position: absolute; top: -5px; right: -5px; background: red; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                                aria-label="Elimina foto"
+                                style="position: absolute; top: -5px; right: -5px; background: #d32f2f; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
                                 x
                             </button>
                         </div>
@@ -166,9 +167,9 @@ include "../includes/header.php";
     </form>
 </div>
 
-<dialog id="delete-photo-modal" class="modal">
+<dialog id="delete-photo-modal" class="modal" aria-labelledby="titolo-elimina-foto">
     <div class="modal-content">
-        <h3>Elimina la foto</h3>
+        <h3 id="titolo-elimina-foto">Elimina la foto</h3>
         <p>Sei sicuro di voler rimuovere questa immagine?</p>
 
         <form method="POST" action="../controllers/controller_modifica_prodotto.php">

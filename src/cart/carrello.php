@@ -39,7 +39,7 @@ include "../includes/header.php";
 <section>
     <h1>Il tuo carrello</h1>
 
-    <div id="msg-carrello" class="alert" style="display:none; margin-bottom: 20px;"></div>
+    <div id="msg-carrello" class="alert" role="status" style="display:none; margin-bottom: 20px;"></div>
 
     <div id="carrello-vuoto" style="<?= empty($elementi_carrello) ? "text-align:center; padding:50px;" : "display:none; text-align:center; padding:50px;" ?>">
         <h2>Il tuo carrello è vuoto</h2>
@@ -82,16 +82,19 @@ include "../includes/header.php";
                                         <div style="display:flex; align-items:center;">
                                             <button type="button" class="btn-secondary btn-sm qty-btn"
                                                 data-action="decrease"
-                                                data-id="<?= $elemento["id_prodotto"] ?>">-</button>
+                                                data-id="<?= $elemento["id_prodotto"] ?>"
+                                                aria-label="Diminuisci quantità">-</button>
 
                                             <input type="text" class="qty-input"
                                                 id="qty-<?= $elemento["id_prodotto"] ?>"
-                                                value="<?= $elemento["quantita_aggiunta"] ?>" readonly>
+                                                value="<?= $elemento["quantita_aggiunta"] ?>" readonly
+                                                aria-label="Quantità">
 
                                             <button type="button" class="btn-secondary btn-sm qty-btn"
                                                 data-action="increase"
                                                 data-id="<?= $elemento["id_prodotto"] ?>"
-                                                data-max="<?= $elemento["quantita_disponibile"] ?>">+</button>
+                                                data-max="<?= $elemento["quantita_disponibile"] ?>"
+                                                aria-label="Aumenta quantità">+</button>
                                         </div>
                                         <small style="font-size:11px; color:#666;">Max: <?= $elemento["quantita_disponibile"] ?></small>
                                     </td>
@@ -132,9 +135,9 @@ include "../includes/header.php";
     <?php endif; ?>
 </section>
 
-<dialog id="modale-rimozione" class="modal">
+<dialog id="modale-rimozione" class="modal" aria-labelledby="titolo-rimozione">
     <div class="modal-content">
-        <h3>Rimuovi il prodotto</h3>
+        <h3 id="titolo-rimozione">Rimuovi il prodotto</h3>
         <p>Sei sicuro di voler rimuovere questo articolo dal carrello?</p>
         <div class="form-actions form-actions-end">
             <button type="button" class="btn-secondary chiudi-modale">Annulla</button>

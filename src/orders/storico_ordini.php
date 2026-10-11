@@ -32,7 +32,7 @@ $nome_pagina = "I miei ordini";
 include "../includes/header.php";
 ?>
 
-<div class="container">
+<div>
 
     <div class="search-header">
         <h1>I miei ordini</h1>
@@ -124,7 +124,7 @@ include "../includes/header.php";
                                             Annulla
                                     </button>
                                 <?php else: ?>
-                                    <span style="font-size: 0.8em; color: #ccc;">-</span>
+                                    <span style="font-size: 0.8em; color: #666;">-</span>
                                 <?php endif; ?>
                             </td>
                         </tr>
@@ -135,8 +135,8 @@ include "../includes/header.php";
     <?php endif; ?>
 </div>
 
-<dialog id="modale_annulla_ordine" class="auth-container" style="margin: auto; max-width: 400px;">
-    <h3 class="text-danger" style="margin-top: 0;">Annulla l'ordine</h3>
+<dialog id="modale_annulla_ordine" class="auth-container" aria-labelledby="titolo-annulla-ordine" style="margin: auto; max-width: 400px;">
+    <h3 id="titolo-annulla-ordine" class="text-danger" style="margin-top: 0;">Annulla l'ordine</h3>
     <p>Sei sicuro di voler annullare l'ordine?</p>
     <p style="font-size: 0.9em;">L'importo verrà rimborsato e i prodotti torneranno disponibili.</p>
 
