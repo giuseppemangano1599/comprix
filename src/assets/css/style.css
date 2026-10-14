@@ -326,6 +326,16 @@ legend {
   padding-top: 15px;
 }
 
+/* Notifica laterale auto-dismiss per i feedback (riusa i colori .alert-*). */
+.toast {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+  max-width: 320px;
+  margin: 0;
+}
+
 /* ===== Home, vetrina e about ===== */
 .products-grid {
   display: flex;

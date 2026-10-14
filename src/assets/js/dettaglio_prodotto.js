@@ -2,17 +2,18 @@
  * Gestisce le immagini, l'aggiunta al carrello e le recensioni.
  */
 $(document).ready(function () {
-    // Funzione che mostra un messaggio di feedback nel box delle recensioni
+    // Funzione che mostra un messaggio di feedback nel toast laterale (si chiude da solo)
     function mostraMessaggioRecensione(successo, messaggio) {
-        const $msg = $("#msg-recensione");
+        const $toast = $("#toast-recensione");
 
         // Rimuove le classi precedenti e assegna quella corretta
-        $msg.removeClass("alert-success alert-danger")
-            .addClass(successo ? "alert-success" : "alert-danger")
+        $toast.stop(true, true)
+            .removeClass("alert-success alert-error")
+            .addClass(successo ? "alert-success" : "alert-error")
             .text(messaggio)
-            .fadeIn()
+            .fadeIn(200)
             .delay(3000)
-            .fadeOut();
+            .fadeOut(200);
     }
 
     // Funzione che mostra un messaggio di feedback per l'aggiunta di un prodotto nel carrello
@@ -156,14 +157,24 @@ $(document).ready(function () {
 
                         // Aggiorna il contatore delle recensioni
                         let numero_attuale = parseInt($("#conta-recensioni").text(), 10);
-                        $("#conta-recensioni").text(Math.max(0, numero_attuale - 1));
+                        if (!isNaN(numero_attuale)) $("#conta-recensioni").text(Math.max(0, numero_attuale - 1));
 
-                        // Ripristina il form per aggiungere una recensione
-                        $("#box-aggiungi-recensione").slideDown();
-                        $("#form-aggiungi-recensione")[0].reset();
+                        // Se era l'ultima, mostra il segnaposto lista vuota
+                        if ($("#contenitore-recensioni .review-card").length === 0
+                            && $("#msg-nessuna-recensione").length === 0) {
+                            $("#contenitore-recensioni").append("<p id=\"msg-nessuna-recensione\">Non ci sono ancora recensioni per questo prodotto.</p>");
+                        }
 
-                        // Nasconde eventuali vecchi messaggi prima di mostrare il nuovo
-                        $("#msg-recensione").hide();
+                        // Il box ha contenuto vecchio (reso quando avevi già recensito):
+                        // ricaricalo dal server e mostralo solo a ricarica riuscita
+                        $("#box-aggiungi-recensione").load(location.href + " #box-aggiungi-recensione > *", function (_, stato) {
+                            if (stato === "error") {
+                                mostraMessaggioRecensione(false, "Recensione eliminata, ma il form non si è aggiornato. Ricarica la pagina.");
+                            } else {
+                                $("#box-aggiungi-recensione").slideDown();
+                                mostraMessaggioRecensione(true, "La recensione è stata eliminata.");
+                            }
+                        });
                     });
                 } else {
                     mostraMessaggioRecensione(false, risposta.messaggio);

@@ -8,8 +8,8 @@ $(document).ready(function () {
     // Mostra il messaggio di feedback (verde/rosso) in alto
     function mostraMessaggio(successo, messaggio) {
         const $msg = $("#msg-carrello");
-        $msg.removeClass("alert-success alert-danger")
-            .addClass(successo ? "alert-success" : "alert-danger")
+        $msg.removeClass("alert-success alert-error")
+            .addClass(successo ? "alert-success" : "alert-error")
             .text(messaggio)
             .show()
             .delay(3000)

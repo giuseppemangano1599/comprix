@@ -228,10 +228,6 @@ include "../includes/header.php";
                 <p>Accedi come cliente per scrivere una recensione.</p>
             <?php endif; ?>
         </div>
-        
-        <div id="msg-recensione" class="alert alert-success" role="status" style="display:none;">
-            Grazie! La tua recensione è stata pubblicata.
-        </div>
 
     </div>
 </section>
@@ -305,6 +301,8 @@ include "../includes/header.php";
         <button class="btn-secondary chiudi-modale">Chiudi</button>
     </div>  
 </dialog>
+
+<div id="toast-recensione" class="toast alert" role="status" style="display:none;"></div>
 
 
 <script src="../assets/js/common.js"></script>
