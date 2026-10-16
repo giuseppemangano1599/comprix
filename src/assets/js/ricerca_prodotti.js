@@ -6,27 +6,27 @@ $(document).ready(function () {
 
     const $griglia = $("#products-grid");
     const $paginazione = $("#pagination-container");
-    const $info_risultati = $("#search-info");
+    const $infoRisultati = $("#search-info");
     
-    const $form_ricerca = $("#form-ricerca");
-    const $input_cerca = $("#q");
-    const $select_categoria = $("#category");
-    const $btn_reset = $("#btn-reset");
+    const $formRicerca = $("#form-ricerca");
+    const $inputCerca = $("#q");
+    const $selectCategoria = $("#category");
+    const $btnReset = $("#btn-reset");
 
     // Variabile che imposta un lieve ritardo tra la pressione di un tasto e la chiamata AJAX
-    let timeout_ricerca;
+    let timeoutRicerca;
 
     // Ultima richiesta in corso: una nuova ricerca annulla la precedente,
     // così risposte arrivate fuori ordine non sovrascrivono i risultati attuali
-    let richiesta_corrente = null;
+    let richiestaCorrente = null;
 
     // Effettua la chiamata AJAX per caricare i prodotti
     function caricaProdotti(pagina = 1) {
         // Recupera valori attuali
-        const testo = $input_cerca.val().trim();
-        const cat = $select_categoria.val();
+        const testo = $inputCerca.val().trim();
+        const cat = $selectCategoria.val();
 
-        if (richiesta_corrente) richiesta_corrente.abort();
+        if (richiestaCorrente) richiestaCorrente.abort();
 
         const richiesta = $.ajax({
             url: "../ajax/ajax_ricerca_prodotti.php",
@@ -54,11 +54,11 @@ $(document).ready(function () {
                 mostraErrore("Si è verificato un errore di comunicazione con il server. Riprova più tardi.");
             },
             complete: function () {
-                if (richiesta_corrente === richiesta) richiesta_corrente = null;
+                if (richiestaCorrente === richiesta) richiestaCorrente = null;
             }
         });
 
-        richiesta_corrente = richiesta;
+        richiestaCorrente = richiesta;
     }
 
     function renderizzaGriglia(prodotti) {
@@ -110,8 +110,8 @@ $(document).ready(function () {
     }
 
     function aggiornaInfoRisultati(totale) {
-        if ($info_risultati.length) {
-            $info_risultati.html(`Trovati <strong>${totale}</strong> prodotti`);
+        if ($infoRisultati.length) {
+            $infoRisultati.html(`Trovati <strong>${totale}</strong> prodotti`);
         }
     }
 
@@ -120,15 +120,15 @@ $(document).ready(function () {
     }
 
     // Effettua una ricerca in tempo reale mentre si scrive (con un ritardo di 1000ms per non fare troppe richieste)
-    $input_cerca.on("input", function () {
-        clearTimeout(timeout_ricerca);
-        timeout_ricerca = setTimeout(function() {
+    $inputCerca.on("input", function () {
+        clearTimeout(timeoutRicerca);
+        timeoutRicerca = setTimeout(function () {
             caricaProdotti(1);
         }, 1000);
     });
 
     // Quando si cambia la categoria
-    $select_categoria.on("change", function () {
+    $selectCategoria.on("change", function () {
         caricaProdotti(1);
     });
 
@@ -139,10 +139,10 @@ $(document).ready(function () {
     });
 
     // Reset dei filtri
-    $btn_reset.on("click", function (e) {
+    $btnReset.on("click", function (e) {
         e.preventDefault();
-        $input_cerca.val("");
-        $select_categoria.val("0");
+        $inputCerca.val("");
+        $selectCategoria.val("0");
         caricaProdotti(1);
     });
 

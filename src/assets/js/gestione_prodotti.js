@@ -4,15 +4,15 @@
  */
 $(document).ready(function () {
     const $modale = $("#delete-modal");
-    const $id_prodotto_modale = $("#modal-product-id");
-    const $nome_prodotto_modale = $("#modal-product-name");
+    const $idProdottoModale = $("#modal-product-id");
+    const $nomeProdottoModale = $("#modal-product-name");
 
     // Apre il modale quando si clicca sul bottone "Elimina"
     $(".delete-trigger").on("click", function () {
         const id = $(this).data("id");
         const nome = $(this).data("name");
-        $id_prodotto_modale.val(id);
-        $nome_prodotto_modale.text(nome);
+        $idProdottoModale.val(id);
+        $nomeProdottoModale.text(nome);
         if ($modale[0]) $modale[0].showModal();
     });
 

@@ -3,7 +3,7 @@
  */
 $(document).ready(function () {
     // Variabile per memorizzare l'ID del prodotto da rimuovere tramite il modale
-    let id_da_rimuovere = 0;
+    let idDaRimuovere = 0;
 
     // Mostra il messaggio di feedback (verde/rosso) in alto
     function mostraMessaggio(successo, messaggio) {
@@ -17,16 +17,16 @@ $(document).ready(function () {
     }
 
     // Una sola operazione alla volta: i click rapidi durante una richiesta vengono ignorati
-    let richiesta_in_corso = false;
+    let richiestaInCorso = false;
 
     // Aggiorna una riga del carrello (o la rimuove se la quantità è 0)
-    function aggiornaRigaCarrello(id_prodotto, nuova_quantita, $riga) {
-        if (richiesta_in_corso) return;
-        richiesta_in_corso = true;
+    function aggiornaRigaCarrello(idProdotto, nuovaQuantita, $riga) {
+        if (richiestaInCorso) return;
+        richiestaInCorso = true;
 
         // Se stiamo per rimuovere (quantita 0), usiamo l'azione "rimuovi" per pulizia,
         // altrimenti "aggiorna" per cambiare la quantità.
-        const azione = (nuova_quantita <= 0) ? "rimuovi" : "aggiorna";
+        const azione = (nuovaQuantita <= 0) ? "rimuovi" : "aggiorna";
 
         $.ajax({
             url: "../controllers/controller_ajax_carrello.php",
@@ -34,13 +34,13 @@ $(document).ready(function () {
             dataType: "json",
             data: {
                 azione: azione,
-                id_prodotto: id_prodotto,
-                quantita: nuova_quantita,
+                id_prodotto: idProdotto,
+                quantita: nuovaQuantita,
                 csrf_token: $("meta[name=csrf-token]").attr("content")
             },
             success: function (risposta) {
                 if (risposta.successo) {
-                    if (nuova_quantita <= 0) {
+                    if (nuovaQuantita <= 0) {
                         // Effetto dissolvenza e rimozione riga
                         $riga.fadeOut(300, function () {
                             $(this).remove();
@@ -53,8 +53,8 @@ $(document).ready(function () {
                         mostraMessaggio(true, "Il prodotto è stato rimosso dal carrello.");
                     } else {
                         // Aggiorna gli input e il subtotale della riga
-                        $("#qty-" + id_prodotto).val(nuova_quantita);
-                        $("#subtotal-" + id_prodotto).empty().append($("<strong>").text(risposta.dati.totale_riga));
+                        $("#qty-" + idProdotto).val(nuovaQuantita);
+                        $("#subtotal-" + idProdotto).empty().append($("<strong>").text(risposta.dati.totale_riga));
                     }
 
                     // Aggiorna i totali globali
@@ -70,7 +70,7 @@ $(document).ready(function () {
                 mostraMessaggio(false, "Si è verificato un errore di comunicazione con il server. Riprova più tardi.");
             },
             complete: function () {
-                richiesta_in_corso = false;
+                richiestaInCorso = false;
             }
         });
     }
@@ -82,22 +82,22 @@ $(document).ready(function () {
         const id = $(this).data("id");
         const max = $(this).data("max");
         const $riga = $("#row-" + id);
-        let quantita_attuale = parseInt($("#qty-" + id).val(), 10);
+        let quantitaAttuale = parseInt($("#qty-" + id).val(), 10);
 
         if (azione === "increase") {
-            if (quantita_attuale < max) {
-                aggiornaRigaCarrello(id, quantita_attuale + 1, $riga);
+            if (quantitaAttuale < max) {
+                aggiornaRigaCarrello(id, quantitaAttuale + 1, $riga);
             } else {
                 mostraMessaggio(false, "Hai aggiunto la quantità massima disponibile.");
             }
         } else if (azione === "decrease") {
-            if (quantita_attuale > 1) {
-                aggiornaRigaCarrello(id, quantita_attuale - 1, $riga);
+            if (quantitaAttuale > 1) {
+                aggiornaRigaCarrello(id, quantitaAttuale - 1, $riga);
             } else {
                 // Se la quantità è 1 e si clicca meno, apre il modale di conferma
-                id_da_rimuovere = id;
-                const dialogo_conferma = $("#modale-rimozione")[0];
-                if (dialogo_conferma) dialogo_conferma.showModal();
+                idDaRimuovere = id;
+                const dialogoConferma = $("#modale-rimozione")[0];
+                if (dialogoConferma) dialogoConferma.showModal();
             }
         }
     });
@@ -105,27 +105,27 @@ $(document).ready(function () {
 
     // Gestisce la rimozione di un prodotto compreso il modale di conferma
     $(".trigger-rimuovi").on("click", function () {
-        id_da_rimuovere = $(this).data("id");
-        const dialogo_rimozione = $("#modale-rimozione")[0];
-        if (dialogo_rimozione) dialogo_rimozione.showModal();
+        idDaRimuovere = $(this).data("id");
+        const dialogoRimozione = $("#modale-rimozione")[0];
+        if (dialogoRimozione) dialogoRimozione.showModal();
     });
 
     $("#conferma-rimozione-btn").on("click", function () {
-        const $riga = $("#row-" + id_da_rimuovere);
+        const $riga = $("#row-" + idDaRimuovere);
         $("#modale-rimozione")[0].close();
-        aggiornaRigaCarrello(id_da_rimuovere, 0, $riga);
+        aggiornaRigaCarrello(idDaRimuovere, 0, $riga);
     });
 
     $(".chiudi-modale").on("click", function () {
         $(this).closest("dialog")[0].close();
-        id_da_rimuovere = 0; 
+        idDaRimuovere = 0; 
     });
 
     // Chiude il modale cliccando sullo sfondo
     $("dialog").on("click", function (e) {
         if (e.target === this) {
             this.close();
-            id_da_rimuovere = 0;
+            idDaRimuovere = 0;
         }
     });
 

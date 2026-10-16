@@ -2,9 +2,9 @@
  * Gestisce il modale di conferma dell'annullamento di un ordine.
  */
 
-$(document).ready(function() {
+$(document).ready(function () {
     const $modale = $("#modale_annulla_ordine");
-    const $input_id = $("#input_id_ordine_annulla");
+    const $inputId = $("#input_id_ordine_annulla");
 
     // Gestione chiusura del modale
     $(".chiudi-modale").on("click", function () {
@@ -12,10 +12,10 @@ $(document).ready(function() {
     });
 
     // Gestione del modale per annullare l'ordine
-    $(".trigger-annulla-ordine").click(function(e) {
+    $(".trigger-annulla-ordine").click(function (e) {
         e.preventDefault();
-        var id_ordine = $(this).data("id");
-        $input_id.val(id_ordine);
+        var idOrdine = $(this).data("id");
+        $inputId.val(idOrdine);
         if ($modale[0]) $modale[0].showModal();
     });
 

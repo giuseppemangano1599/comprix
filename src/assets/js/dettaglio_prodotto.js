@@ -36,8 +36,8 @@ $(document).ready(function () {
     // Apertura del modale immagine ingrandita
     $(document).on("click", ".foto-ingrandibile", function () {
         $("#img-ingrandita").attr("src", $(this).attr("src"));
-        const dialogo_immagine = $("#modale-immagine")[0];
-        if (dialogo_immagine) dialogo_immagine.showModal();
+        const dialogoImmagine = $("#modale-immagine")[0];
+        if (dialogoImmagine) dialogoImmagine.showModal();
     });
 
     // Chiusura dei modali tramite il bottone dedicato
@@ -56,8 +56,8 @@ $(document).ready(function () {
     // Aggiunta dei prodotti nel carrello
     $("#btn-aggiungi-carrello").on("click", function () {
         const $bottone = $(this);
-        const id_prodotto = $bottone.data("id");
-        const quantita_scelta = $("#quantita_da_aggiungere").val();
+        const idProdotto = $bottone.data("id");
+        const quantitaScelta = $("#quantita_da_aggiungere").val();
 
         $bottone.prop("disabled", true).text("Attendere...");
 
@@ -67,8 +67,8 @@ $(document).ready(function () {
             dataType: "json",
             data: {
                 azione: "aggiungi",
-                id_prodotto: id_prodotto,
-                quantita: quantita_scelta,
+                id_prodotto: idProdotto,
+                quantita: quantitaScelta,
                 csrf_token: $("meta[name=csrf-token]").attr("content")
             },
             success: function (risposta) {
@@ -94,7 +94,7 @@ $(document).ready(function () {
     $("#form-aggiungi-recensione").on("submit", function (e) {
         e.preventDefault();
 
-        const dati_form = new FormData(this);
+        const datiForm = new FormData(this);
         const $bottone = $(this).find("button[type=submit]");
 
         $bottone.prop("disabled", true).text("Pubblicazione...");
@@ -102,7 +102,7 @@ $(document).ready(function () {
         $.ajax({
             url: "../controllers/controller_ajax_recensione.php",
             type: "POST",
-            data: dati_form,
+            data: datiForm,
             processData: false,
             contentType: false,
             dataType: "json",
@@ -134,13 +134,13 @@ $(document).ready(function () {
     // Eliminazione di una recensione
     $(document).on("click", ".trigger-elimina-recensione", function () {
         $("#id-recensione-elimina").val($(this).data("id"));
-        const dialogo_elimina = $("#modale-elimina-recensione")[0];
-        if (dialogo_elimina) dialogo_elimina.showModal();
+        const dialogoElimina = $("#modale-elimina-recensione")[0];
+        if (dialogoElimina) dialogoElimina.showModal();
     });
 
     $("#form-elimina-recensione").on("submit", function (e) {
         e.preventDefault();
-        const id_recensione = $("#id-recensione-elimina").val();
+        const idRecensione = $("#id-recensione-elimina").val();
 
         $.ajax({
             url: "../controllers/controller_ajax_recensione.php",
@@ -152,12 +152,12 @@ $(document).ready(function () {
 
                 if (risposta.successo) {
                     // Rimuove dalla pagina la recensione
-                    $("#card-recensione-" + id_recensione).fadeOut(300, function () {
+                    $("#card-recensione-" + idRecensione).fadeOut(300, function () {
                         $(this).remove();
 
                         // Aggiorna il contatore delle recensioni
-                        let numero_attuale = parseInt($("#conta-recensioni").text(), 10);
-                        if (!isNaN(numero_attuale)) $("#conta-recensioni").text(Math.max(0, numero_attuale - 1));
+                        let numeroAttuale = parseInt($("#conta-recensioni").text(), 10);
+                        if (!isNaN(numeroAttuale)) $("#conta-recensioni").text(Math.max(0, numeroAttuale - 1));
 
                         // Se era l'ultima, mostra il segnaposto lista vuota
                         if ($("#contenitore-recensioni .review-card").length === 0
@@ -190,14 +190,14 @@ $(document).ready(function () {
 
     // Modifica di una recensione
     $(document).on("click", ".trigger-modifica-recensione", function () {
-        const id_recensione = $(this).data("id");
+        const idRecensione = $(this).data("id");
 
         $.ajax({
             url: "../controllers/controller_ajax_recensione.php",
             type: "POST",
             data: { 
                 azione: "recupera",
-                id_recensione: id_recensione,
+                id_recensione: idRecensione,
                 csrf_token: $("meta[name=csrf-token]").attr("content")
             },
             dataType: "json",
@@ -210,12 +210,12 @@ $(document).ready(function () {
                     $("#mod-testo").val(dati.testo);
 
                     // Gestione delle foto nel modale
-                    const $container_foto = $("#container-foto-modifica");
-                    $container_foto.empty();
+                    const $containerFoto = $("#container-foto-modifica");
+                    $containerFoto.empty();
 
                     if (dati.foto && dati.foto.length > 0) {
                         dati.foto.forEach(function (f) {
-                            $container_foto.append(`
+                            $containerFoto.append(`
                                 <div style="text-align:center; border:1px solid #eee; padding:5px;">
                                     <img src="../${escapeHtml(f.percorso_file)}" style="width:50px; height:50px; object-fit:cover; display:block; margin-bottom:5px;">
                                     <label style="font-size:11px; color:red; cursor:pointer;">
@@ -225,11 +225,11 @@ $(document).ready(function () {
                             `);
                         });
                     } else {
-                        $container_foto.html('<span style="font-size:13px; color:#666;">Nessuna foto presente.</span>');
+                        $containerFoto.html('<span style="font-size:13px; color:#666;">Nessuna foto presente.</span>');
                     }
 
-                    const dialogo_modifica = $("#modale-modifica-recensione")[0];
-                    if (dialogo_modifica) dialogo_modifica.showModal();
+                    const dialogoModifica = $("#modale-modifica-recensione")[0];
+                    if (dialogoModifica) dialogoModifica.showModal();
                 } else {
                     mostraMessaggioRecensione(false, risposta.messaggio);
                 }
@@ -243,12 +243,12 @@ $(document).ready(function () {
     // Invio del form della modifica della recensione
     $("#form-modifica-recensione").on("submit", function (e) {
         e.preventDefault();
-        const dati_form = new FormData(this);
+        const datiForm = new FormData(this);
 
         $.ajax({
             url: "../controllers/controller_ajax_recensione.php",
             type: "POST",
-            data: dati_form,
+            data: datiForm,
             processData: false,
             contentType: false,
             dataType: "json",

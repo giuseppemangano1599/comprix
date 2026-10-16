@@ -4,12 +4,12 @@
  */
 $(document).ready(function () {
     const $modale = $("#delete-photo-modal");
-    const $id_foto_modale = $("#modal-photo-id");
+    const $idFotoModale = $("#modal-photo-id");
 
     // Apre il modale quando si clicca sulla "X" di una foto
     $(".delete-photo-trigger").on("click", function () {
-        const id_foto = $(this).data("id");
-        $id_foto_modale.val(id_foto);
+        const idFoto = $(this).data("id");
+        $idFotoModale.val(idFoto);
         if ($modale[0]) $modale[0].showModal();
     });
 

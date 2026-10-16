@@ -13,8 +13,8 @@
  */
 $(document).ready(function () {
     // Funzione AJAX per controllare la disponibilità dell'username e dell'e-mail
-    function verificaDisponibilita(input_da_verificare) {
-        const $input = $(input_da_verificare);
+    function verificaDisponibilita(inputDaVerificare) {
+        const $input = $(inputDaVerificare);
         const campo = $input.attr("name"); // "username" o "email"
         const valore = $input.val().trim();
         const $feedback = $input.siblings("small");
@@ -36,6 +36,9 @@ $(document).ready(function () {
                     valore: valore
                 },
                 success: function (risposta) {
+                    // Ignora risposte arrivate dopo che il campo è cambiato
+                    if ($input.val().trim() !== valore) return;
+
                     if (!risposta.successo) {
                         $feedback.text("Si è verificato un errore di comunicazione con il server. Riprova più tardi.").css("color", "red");
                         return;

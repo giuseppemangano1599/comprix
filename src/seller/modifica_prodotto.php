@@ -132,7 +132,7 @@ include "../includes/header.php";
         <div class="form-group">
             <p><strong>Foto del prodotto:</strong></p>
             <?php if (!empty($foto_associate)): ?>
-                <div class="edit-photos-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-bottom: 15px;">
+                <div class="edit-photos-grid">
                     <?php foreach ($foto_associate as $foto): ?>
                         <div class="photo-wrapper" style="position: relative;">
                             <img src="../<?= h($foto["percorso_file"]) ?>" style="width: 100%; height: 100px; object-fit: cover; border-radius: 4px; border: 1px solid #ccc;">

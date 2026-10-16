@@ -1,4 +1,4 @@
-/* Funzioni condivise dai vari script del sito (solo logica pura, nessun binding).
+/* Funzioni condivise dai vari script del sito (solo helper richiamati dalle pagine).
  * Va caricato prima dello script specifico della pagina.
  */
 
